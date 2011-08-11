@@ -24,6 +24,17 @@ AC_CONFIG_SRCDIR([src/Textfile.hh])
 AC_CONFIG_HEADER([config.h])
 AC_PROG_CXX
 AC_LANG([C++])
+AC_CACHE_CHECK([for Cairomm CFLAGS],[rjk_cv_cairomm_cflags],[
+  rjk_cv_cairomm_cflags=`pkg-config --silence-errors --cflags cairomm-1.0`
+])
+AC_CACHE_CHECK([for Cairomm LIBS],[rjk_cv_cairomm_libs],[
+  rjk_cv_cairomm_libs=`pkg-config --silence-errors --libs cairomm-1.0`
+])
+if test -z "$rjk_cv_cairomm_libs"; then
+ AC_MSG_ERROR([could not find Cairo])
+fi
+AC_SUBST([CAIROMM_CFLAGS],[$rjk_cv_cairomm_cflags])
+AC_SUBST([CAIROMM_LIBS],[$rjk_cv_cairomm_libs])
 if test "x$GXX" = xyes; then
   CXX="$CXX -Wall -W -Werror -Wpointer-arith -Wwrite-strings"
 fi

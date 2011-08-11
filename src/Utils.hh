@@ -29,5 +29,14 @@
  */
 std::wstring narrowToWide(const std::string &s);
 
+/** @brief Convert a wide string to a UTF-8 string
+ * @param s Wide string to convert
+ * @return UTF-8 string equivalent to @p s
+ *
+ * It is assumed that the characters in @p s are valid Unicode code
+ * points - if they are not then the UTF-8 will be gibberish.
+ */
+std::string wideToUtf8(const std::wstring &s);
+
 #endif /* UTILS_H */
 

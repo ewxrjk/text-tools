@@ -15,27 +15,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 
 #include <config.h>
-#include "Textfile.hh"
+#include "Utils.hh"
 
-void TextfileProcessor::begin() {}
-
-void TextfileProcessor::character(wchar_t c, bool isBold, bool isUnderlined) {
-  if(isBold != boldState)
-    bold(boldState = isBold);
-  if(isUnderlined != underlineState)
-    underline(underlineState = isUnderlined);
-  std::wstring s; s += c;
-  text(s);
+std::string wideToUtf8(const std::wstring &s) {
+  std::string u;
+  for(std::wstring::size_type n = 0; n < s.size(); ++n) {
+    const unsigned c = s.at(n);
+    if(c <= 0x7F) 
+      u += c;
+    else if(c <= 0x0800) {
+      u += 0xC0 + (c >> 6);
+      u += 0x80 + (c & 0x3F);
+    } else if(c <= 0x10000) {
+      u += 0xE0 + (c >> 18);
+      u += 0x80 + ((c >> 6) & 0x3F);
+      u += 0x80 + (c & 0x3F);
+    } else {
+      u += 0xE0 + (c >> 24);
+      u += 0x80 + ((c >> 18) & 0x3F);
+      u += 0x80 + ((c >> 6) & 0x3F);
+      u += 0x80 + (c & 0x3F);
+    }
+  }
+  return u;
 }
-
-void TextfileProcessor::bold(bool) {}
-void TextfileProcessor::underline(bool) {}
-
-void TextfileProcessor::end() { 
-  if(boldState)
-    bold(boldState = false);
-  if(underlineState)
-    underline(underlineState = false);
-}
-
-void TextfileProcessor::finished() {}

@@ -1,0 +1,69 @@
+.\"
+.\" Copyright (C) 2011 Richard Kettlewell
+.\"
+.\" This program is free software: you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation, either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.\"
+.TH texttopng 1
+.SH NAME
+texttopng \- convert text to PNG
+.SH SYNOPSIS
+\fBtexttopng\fR [\fIOPTIONS\fR] [\fB--\fR] [\fIINPUT\fR ...]
+.SH DESCRIPTION
+\fBtexttopng\fR reads one or more text files and converts them to PNG images.
+.PP
+If there are no \fIINPUT\fR arguments then input is read from standard
+input.
+Otherwise all the named input files are concatenated.
+.PP
+PNGs are written to \fBoutput0.png\fR, \fBoutput1.png\fR, etc.
+The base name can be changed with the \fB-o\fR option.
+.PP
+The use of overprinting to represent bold and underline, for instance
+as traditionally found in \fBman\fR(1) output, is recognized, although
+underlined output is represented as italics.
+.SH OPTIONS
+.TP
+.B -w\fR, \fB--width \fIPIXELS
+Set the width of the output image.
+The default is 480 pixels.
+.TP
+.B -H\fR, \fB--height \fIPIXELS
+Set the height of the output image.
+The default is 792 pixels.
+.TP
+.B -f\fR, \fB--font-size \fISIZE
+Set the font size.
+The default is 10.
+.TP
+.B -F\fR, \fB--font \fIFONT
+Set the font.
+The default is \fBmonospace\fR.
+.TP
+.B -o\fR, \fB--output \fIBASE
+Set the base name for the output files.
+Output will be written to \fIBASE\fB0.png\fR, \fIBASE\fB1.png\fR, etc.
+.TP
+.B -t\fR, \fB--tab \fICOLUMNS
+Set the size of a tab.
+The default is 8 columns.
+.TP
+.B -h\fR, \fB--help
+Display a usage message.
+.TP
+.B -V\fR, \fB--version
+Display the version string.
+.SH "FONTS"
+Font names and sizes are passed directly to Cairo, the drawing backend
+this program uses.
+Refer to Cairo's documentation for details of how they are interpreted.

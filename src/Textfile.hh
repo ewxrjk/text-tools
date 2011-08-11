@@ -89,6 +89,14 @@ public:
    */
   void end();
 
+  /** @brief Called at the end of all files
+   *
+   * Called from the front end.
+   *
+   * The default implementation does nothing.
+   */
+  void finished();
+
 private:
   bool boldState, underlineState;
 

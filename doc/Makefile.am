@@ -15,4 +15,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-dist_man_MANS=texttohtml.1
+dist_man_MANS=texttohtml.1 texttopng.1

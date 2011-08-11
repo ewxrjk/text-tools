@@ -48,7 +48,7 @@ static void version() {
 int main(int argc, char **argv) {
   try {
     const char *title = NULL;
-    int tabstop = 0;
+    int tabstop = 8;
     if(!setlocale(LC_CTYPE, ""))
       throw std::runtime_error(std::string("setlocale: ")
                                + strerror(errno));
@@ -64,8 +64,7 @@ int main(int argc, char **argv) {
     }
     HtmlOutput h;
     Textfile t;
-    if(tabstop > 0)
-      t.setTabStop(tabstop);
+    t.setTabStop(tabstop);
     h.output.open("-", "w");
     h.output.printf("<html>\n"
                     "<head>\n");
@@ -86,6 +85,7 @@ int main(int argc, char **argv) {
         t.process(h);
       }
     }
+    h.finished();
     h.output.printf("</pre>\n"
                     "</body>\n"
                     "</html>\n");
