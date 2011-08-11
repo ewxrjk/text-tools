@@ -1,0 +1,16 @@
+text-tools
+==========
+
+This is a small collection of text processing tools.
+
+Installation
+------------
+
+  ./autogen.sh   # only if configure doesn't exist yet
+  ./configure
+  make
+  sudo make install
+
+Copyright
+---------
+

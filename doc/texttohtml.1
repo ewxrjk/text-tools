@@ -1,0 +1,53 @@
+\" 
+\"  Copyright (C) 2011 Richard Kettlewell
+\" 
+\"  This program is free software: you can redistribute it and/or modify
+\"  it under the terms of the GNU General Public License as published by
+\"  the Free Software Foundation, either version 3 of the License, or
+\"  (at your option) any later version.
+\" 
+\"  This program is distributed in the hope that it will be useful,
+\"  but WITHOUT ANY WARRANTY; without even the implied warranty of
+\"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+\"  GNU General Public License for more details.
+\"  
+\"  You should have received a copy of the GNU General Public License
+\"  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\" 
+.TH texttohtml 1
+.SH NAME
+texttohtml \- convert text to HTML
+.SH SYNOPSIS
+\fBtexttohtml\fR [\fIOPTIONS\fR] [\fB--\fR] [\fIINPUT\fR ...]
+.SH DESCRIPTION
+\fBtexttohtml\fR reads one or more text files and converts them to HTML.
+.PP
+If there are no \fIINPUT\fR arguments then input is read from standard
+input.
+Otherwise all the named input files are concatenated.
+.PP
+HTML output is always sent to standard output.
+.PP
+The use of overprinting to represent bold and underline, for instance
+as traditionally found in \fBman\fR(1) output, is recognized.
+.SH OPTIONS
+.TP
+.B -T\fR, \fB--title \fITITLE
+Set the <title> string.
+By default there is no <title> element.
+.TP
+.B -t\fR, \fB--tab \fICOLUMNS
+Set the size of a tab.
+The default is 8 columns.
+.TP
+.B -h\fR, \fB--help
+Display a usage message.
+.TP
+.B -V\fR, \fB--version
+Display the version string.
+.SH EXAMPLE
+To create an HTML version of this man page:
+.PP
+.nf
+man -Tutf8 texttohtml.1 | texttohtml -T "texttohtml(1)"
+.fi
