@@ -16,6 +16,7 @@
 // 
 #include <config.h>
 #include "Utils.hh"
+#include <cstdio>
 
 std::string wideToUtf8(const std::wstring &s) {
   std::string u;
@@ -23,16 +24,16 @@ std::string wideToUtf8(const std::wstring &s) {
     const unsigned c = s.at(n);
     if(c <= 0x7F) 
       u += c;
-    else if(c <= 0x0800) {
+    else if(c <= 0x07ff) {
       u += 0xC0 + (c >> 6);
       u += 0x80 + (c & 0x3F);
-    } else if(c <= 0x10000) {
-      u += 0xE0 + (c >> 18);
+    } else if(c <= 0xffff) {
+      u += 0xE0 + (c >> 12);
       u += 0x80 + ((c >> 6) & 0x3F);
       u += 0x80 + (c & 0x3F);
     } else {
-      u += 0xE0 + (c >> 24);
-      u += 0x80 + ((c >> 18) & 0x3F);
+      u += 0xF0 + (c >> 18);
+      u += 0x80 + ((c >> 12) & 0x3F);
       u += 0x80 + ((c >> 6) & 0x3F);
       u += 0x80 + (c & 0x3F);
     }
