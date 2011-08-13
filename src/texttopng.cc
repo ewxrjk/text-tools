@@ -90,14 +90,14 @@ int main(int argc, char **argv) {
     int opt;
     while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:o:lb:pe:", options, NULL)) >= 0) {
       switch(opt) {
-      case 't': tabstop = atoi(optarg); break;
-      case 'w': width = atoi(optarg); break;
-      case 'H': height = atoi(optarg); break;
-      case 'f': fontsize = atof(optarg); break;
+      case 't': tabstop = stringToInt(optarg); break;
+      case 'w': width = stringToInt(optarg); break;
+      case 'H': height = stringToInt(optarg); break;
+      case 'f': fontsize = stringToDouble(optarg); break;
       case 'F': font = optarg; break;
       case 'o': output = optarg; break;
       case 'l': CairoOutput::listFonts(); return 0;
-      case 'b': border = atof(optarg); break;
+      case 'b': border = stringToDouble(optarg); break;
       case 'p': pageNumbering = true; break;
       case 'e': title = optarg; break;
       case 'h': help(); return 0;
@@ -105,7 +105,14 @@ int main(int argc, char **argv) {
       default: return 1;
       }
     }
-    // TODO arg sanity checking
+    if(tabstop <= 0)
+      throw std::runtime_error("invalid top stop size");
+    if(width == 0 || height == 0)
+      throw std::runtime_error("invalid page dimensions");
+    if(fontsize <= 0)
+      throw std::runtime_error("invalid font size");
+    if(border < 0)
+      throw std::runtime_error("invalid border size");
     Pango::FontDescription fontdesc;
     fontdesc.set_family(font);
     fontdesc.set_size(PANGO_SCALE * fontsize);

@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
     while((opt = getopt_long(argc, argv, "+hVT:t:", options, NULL)) >= 0) {
       switch(opt) {
       case 'T': title = optarg; break;
-      case 't': tabstop = atoi(optarg); break;
+      case 't': tabstop = stringToInt(optarg); break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;

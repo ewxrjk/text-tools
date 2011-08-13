@@ -38,5 +38,19 @@ std::wstring narrowToWide(const std::string &s);
  */
 std::string wideToUtf8(const std::wstring &s);
 
+/** @brief Convert a decimal string to an integer
+ * @param s String to convert
+ * @exception std::runtime_error Out of range or badly formatted string
+ * @return Integer value
+ */
+int stringToInt(const std::string &s);
+
+/** @brief Convert a decimal string to an double
+ * @param s String to convert
+ * @exception std::runtime_error Out of range or badly formatted string
+ * @return Double value
+ */
+double stringToDouble(const std::string &s);
+
 #endif /* UTILS_H */
 

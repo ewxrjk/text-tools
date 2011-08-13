@@ -96,13 +96,13 @@ int main(int argc, char **argv) {
     while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:pe:", options, NULL)) >= 0) {
       switch(opt) {
       case 'T': type = optarg; break;
-      case 't': tabstop = atoi(optarg); break;
-      case 'w': width = atof(optarg); break; // TODO units
-      case 'H': height = atof(optarg); break; // TODO units
-      case 'f': fontsize = atof(optarg); break;
+      case 't': tabstop = stringToInt(optarg); break;
+      case 'w': width = stringToDouble(optarg); break; // TODO units
+      case 'H': height = stringToDouble(optarg); break; // TODO units
+      case 'f': fontsize = stringToDouble(optarg); break;
       case 'F': font = optarg; break;
       case 'l': CairoOutput::listFonts(); return 0;
-      case 'b': border = atof(optarg); break;
+      case 'b': border = stringToDouble(optarg); break;
       case 'p': pageNumbering = true; break;
       case 'e': title = optarg; break;
       case 'h': help(); return 0;
@@ -110,7 +110,14 @@ int main(int argc, char **argv) {
       default: return 1;
       }
     }
-    // TODO arg sanity checking
+    if(tabstop <= 0)
+      throw std::runtime_error("invalid top stop size");
+    if(width <= 0 || height <= 0)
+      throw std::runtime_error("invalid page dimensions");
+    if(fontsize <= 0)
+      throw std::runtime_error("invalid font size");
+    if(border < 0)
+      throw std::runtime_error("invalid border size");
     if(!strcmp(type, "pdf"))
       surface = Cairo::PdfSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
     else
