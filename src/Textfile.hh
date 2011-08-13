@@ -72,14 +72,6 @@ public:
    */
   virtual void text(const std::wstring &s) = 0;
 
-  /** @brief Output text
-   * @param s Text string to output
-   *
-   * Converts @p s to a wide-character string and calls the virtual
-   * method.
-   */
-  void text(const std::string &s);
-
   /** @brief Called at the end of a file
    *
    * Called from Textfile::process().
