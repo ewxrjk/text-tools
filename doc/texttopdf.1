@@ -14,14 +14,14 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .\"
-.TH texttops 1
+.TH texttopdf 1
 .SH NAME
-texttops \- convert text to Postscript
+texttopdf \- convert text to PDF
 .SH SYNOPSIS
-\fBtexttops\fR [\fIOPTIONS\fR] [\fB--\fR] [\fIINPUT\fR ...]
+\fBtexttopdf\fR [\fIOPTIONS\fR] [\fB--\fR] [\fIINPUT\fR ...]
 .SH DESCRIPTION
-\fBtexttops\fR reads one or more text files and converts them to a
-Postscript file.
+\fBtexttopdf\fR reads one or more text files and converts them to a
+PDF file.
 .PP
 If there are no \fIINPUT\fR arguments then input is read from standard
 input.
@@ -71,7 +71,7 @@ The border must be large enough for the page number.
 .B -y\fR, \fB--type \fITYPE
 Set the output type.
 \fITYPE\fR can be \fBps\fR or \fBpdf\fR.
-The default is \fBps\fR.
+The default is \fBpdf\fR.
 .SS "Other Options"
 .TP
 .B -l\fR, \fB--list-fonts

@@ -29,3 +29,11 @@ texttops_SOURCES=File.cc CairoOutput.cc Textfile.cc			\
 TextfileProcessor.cc texttops.cc Characters.hh File.hh CairoOutput.hh	\
 Textfile.hh Utils.hh wideToUtf8.cc stringToInt.cc stringToDouble.cc
 texttops_LDFLAGS=${CAIROMM_LIBS}
+
+install-exec-hook:
+	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
+	ln -s texttops$(EXEEXT) \
+		$(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
+
+uninstall-local:
+	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
