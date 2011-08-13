@@ -11,7 +11,13 @@ Installation
   make
   sudo make install
 
-See 'man texttohtml' and 'man texttops' for documentation.
+The following commands will be installed:
+  texttohtml
+  texttopng
+  texttops
+  texttopdf
+
+They all have man pages.
 
 Copyright
 ---------
