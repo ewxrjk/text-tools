@@ -16,12 +16,12 @@
 .\"
 .TH texttops 1
 .SH NAME
-texttops \- convert text to Postscript
+texttops \- convert text to %postscript%
 .SH SYNOPSIS
-\fBtexttops\fR [\fIOPTIONS\fR] [\fB--\fR] [\fIINPUT\fR ...]
+\fBtextto%ps%\fR [\fIOPTIONS\fR] [\fB--\fR] [\fIINPUT\fR ...]
 .SH DESCRIPTION
-\fBtexttops\fR reads one or more text files and converts them to a
-Postscript file.
+\fBtextto%ps%\fR reads one or more text files and converts them to a
+%postscript% file.
 .PP
 If there are no \fIINPUT\fR arguments then input is read from standard
 input.
@@ -71,7 +71,7 @@ The border must be large enough for the page number.
 .B -y\fR, \fB--type \fITYPE
 Set the output type.
 \fITYPE\fR can be \fBps\fR or \fBpdf\fR.
-The default is \fBps\fR.
+The default is \fB%ps%\fR.
 .SS "Other Options"
 .TP
 .B -l\fR, \fB--list-fonts

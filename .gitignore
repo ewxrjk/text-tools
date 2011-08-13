@@ -21,3 +21,5 @@ Makefile.in
 /debian/files
 /debian/substvars
 /debian/tmp
+/doc/texttops.1
+/doc/texttopdf.1
