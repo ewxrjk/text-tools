@@ -41,17 +41,21 @@ static const struct option options[] = {
 static void help() {
   printf("Usage:\n"
          "  texttops [OPTIONS] [--] [INPUT...]\n"
+         "  texttops --list-fonts\n"
          "\n"
-         "Options:\n"
-         "  -T, --type TYPE             Set output type (pdf or ps)\n"
+         "Text options:\n"
          "  -t, --tab COLUMNS           Set tab size (default=8)\n"
-         "  -w, --width POINTS          Set output file width (default=595)\n"
-         "  -H, --height POINTS         Set output file height (default=841)\n"
          "  -f, --font-size SIZE        Set font size (default=8)\n"
          "  -F, --font FONT             Set font (default=Courier New)\n"
+         "Layout options:\n"
+         "  -w, --width POINTS          Set output file width (default=595)\n"
+         "  -H, --height POINTS         Set output file height (default=841)\n"
          "  -b, --border POINTS         Set border (default=36)\n"
+         "  -T, --title TITLE           Top-of-page title string\n"
          "  -p, --page-numbering        Enable page numbering\n"
-         "  -e, --title TITLE           Add title string\n"
+         "Output options:\n"
+         "  -y, --type TYPE             Set output type (pdf or ps)\n"
+         "Other options:\n"
          "  -l, --list-fonts            List fonts\n"
          "  -h, --help                  Display usage message\n"
          "  -V, --version               Display version string\n");
@@ -93,9 +97,9 @@ int main(int argc, char **argv) {
                                + strerror(errno));
     Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:pe:", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:", options, NULL)) >= 0) {
       switch(opt) {
-      case 'T': type = optarg; break;
+      case 'y': type = optarg; break;
       case 't': tabstop = stringToInt(optarg); break;
       case 'w': width = stringToDouble(optarg); break; // TODO units
       case 'H': height = stringToDouble(optarg); break; // TODO units
@@ -104,7 +108,7 @@ int main(int argc, char **argv) {
       case 'l': CairoOutput::listFonts(); return 0;
       case 'b': border = stringToDouble(optarg); break;
       case 'p': pageNumbering = true; break;
-      case 'e': title = optarg; break;
+      case 'T': title = optarg; break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;

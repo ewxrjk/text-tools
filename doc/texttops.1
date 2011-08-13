@@ -33,10 +33,20 @@ The use of overprinting to represent bold and underline, for instance
 as traditionally found in \fBman\fR(1) output, is recognized, although
 underlined output is represented as italics.
 .SH OPTIONS
+.SS "Text Options"
 .TP
-.B -T\fR, \fB--type \fITYPE
-Set the output type.
-\fITYPE\fR can be \fBps\fR (the default) or \fBpdf\fR.
+.B -t\fR, \fB--tab \fICOLUMNS
+Set the size of a tab.
+The default is 8 columns.
+.TP
+.B -f\fR, \fB--font-size \fIPOINTS
+Set the font size.
+The default is 8 points.
+.TP
+.B -F\fR, \fB--font \fIFONT
+Set the font.
+The default is \fBCourier New\fR.
+.SS "Layout Options"
 .TP
 .B -w\fR, \fB--width \fIPOINTS
 Set the width of the output image.
@@ -46,31 +56,25 @@ The default is 595 points.
 Set the height of the output image.
 The default is 841 points.
 .TP
-.B -f\fR, \fB--font-size \fIPOINTS
-Set the font size.
-The default is 8 points.
-.TP
-.B -F\fR, \fB--font \fIFONT
-Set the font.
-The default is \fBCourier New\fR.
-.TP
 .B -b\fR, \fB--border \fIPOINTS
 Set the border size.
 The default is 36 points.
 .TP
+.B -T\fR, \fB--title \fITITLE
+Add a title to each page.
+.TP
 .B -p\fR, \fB--page-numbering
 Enable page numbering.
 The border must be large enough for the page number.
+.SS "Output Options"
 .TP
-.B -e\fR, \fB--title \fITITLE
-Add a title to each page.
+.B -y\fR, \fB--type \fITYPE
+Set the output type.
+\fITYPE\fR can be \fBps\fR (the default) or \fBpdf\fR.
+.SS "Other Options"
 .TP
 .B -l\fR, \fB--list-fonts
 List the known fonts.
-.TP
-.B -t\fR, \fB--tab \fICOLUMNS
-Set the size of a tab.
-The default is 8 columns.
 .TP
 .B -h\fR, \fB--help
 Display a usage message.

@@ -35,8 +35,8 @@ static void help() {
          "  texttohtml [OPTIONS] [--] [INPUT...]\n"
          "\n"
          "Options:\n"
-         "  -T, --title TITLE           HTML <title> element\n"
          "  -t, --tab COLUMNS           Set tab size (default=8)\n"
+         "  -T, --title TITLE           HTML <title> element\n"
          "  -h, --help                  Display usage message\n"
          "  -V, --version               Display version string\n");
 }
