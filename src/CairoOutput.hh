@@ -41,6 +41,7 @@ public:
   /** @brief Destroy a CairoOutput */
   ~CairoOutput();
 
+  inline void setBorder(double b) { border = b; }
   void bold(bool state);
   void underline(bool state);
   void text(const std::wstring &s);
@@ -56,6 +57,7 @@ private:
   Glib::RefPtr<Pango::Layout> layout;
   Pango::FontDescription font;
   void (*page)(CairoOutput *);
+  double border;
   bool boldState, underlineState;
   double x, y;
   double width, height;

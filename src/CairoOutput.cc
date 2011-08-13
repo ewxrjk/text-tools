@@ -11,6 +11,7 @@ CairoOutput::CairoOutput(Cairo::RefPtr<Cairo::Context> context_,
   layout(Pango::Layout::create(context)),
   font(font_),
   page(page_),
+  border(0),
   boldState(false), underlineState(false),
   x(0), y(0) {
   double left, top, right, bottom;
@@ -72,12 +73,12 @@ void CairoOutput::renderLine() {
   layout->set_markup(wideToUtf8(line));
   const Pango::Rectangle extent = layout->get_pixel_logical_extents();
   // If the line overflows the layout, push out a page go onto the next
-  if(y + extent.get_height() > height) {
+  if(y + extent.get_height() > height - 2 * border) {
     page(this);
     clearPage();
   }
   // Render the line
-  context->move_to(x, y);
+  context->move_to(x + border, y + border);
   layout->show_in_cairo_context(context);
   y += extent.get_height();
   line.clear();

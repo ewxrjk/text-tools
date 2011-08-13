@@ -30,6 +30,7 @@ static const struct option options[] = {
   { "font-size", required_argument, NULL, 'f' },
   { "font", required_argument, NULL, 'F' },
   { "list-fonts", no_argument, NULL, 'l' },
+  { "border", required_argument, NULL, 'b' },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -42,10 +43,11 @@ static void help() {
          "Options:\n"
          "  -T, --type TYPE             Set output type (pdf or ps)\n"
          "  -t, --tab COLUMNS           Set tab size (default=8)\n"
-         "  -w, --width POINTS          Set output file width (default=480)\n"
-         "  -H, --height POINTS         Set output file height (default=792)\n"
-         "  -f, --font-size SIZE        Set font size (default=10)\n"
-         "  -F, --font FONT             Set font (default=monospace)\n"
+         "  -w, --width POINTS          Set output file width (default=595)\n"
+         "  -H, --height POINTS         Set output file height (default=841)\n"
+         "  -f, --font-size SIZE        Set font size (default=8)\n"
+         "  -F, --font FONT             Set font (default=Courier New)\n"
+         "  -b, --border POINTS         Set border (default=36)\n"
          "  -l, --list-fonts            List fonts\n"
          "  -h, --help                  Display usage message\n"
          "  -V, --version               Display version string\n");
@@ -75,6 +77,7 @@ int main(int argc, char **argv) {
     int tabstop = 8;
     double width = 595, height = 841;   // A4
     double fontsize = 8.0;
+    double border = 36.0;
     const char *type;
     if(strstr(argv[0], "pdf")) type = "pdf";
     else type = "ps";
@@ -93,6 +96,7 @@ int main(int argc, char **argv) {
       case 'f': fontsize = atof(optarg); break;
       case 'F': font = optarg; break;
       case 'l': CairoOutput::listFonts(); return 0;
+      case 'b': border = atof(optarg); break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
@@ -108,6 +112,7 @@ int main(int argc, char **argv) {
     fontdesc.set_size(PANGO_SCALE * fontsize);
     context = Cairo::Context::create(surface);
     CairoOutput o(context, fontdesc, newpage);
+    o.setBorder(border);
     Textfile t;
     t.setTabStop(tabstop);
     if(optind >= argc) {

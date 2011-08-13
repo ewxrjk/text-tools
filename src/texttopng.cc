@@ -31,6 +31,7 @@ static const struct option options[] = {
   { "font", required_argument, NULL, 'F' },
   { "output", required_argument, NULL, 'o' },
   { "list-fonts", no_argument, NULL, 'l' },
+  { "border", required_argument, NULL, 'b' },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -45,7 +46,8 @@ static void help() {
          "  -w, --width PIXELS          Set output file width\n"
          "  -H, --height PIXELS         Set output file height\n"
          "  -f, --font-size SIZE        Set font size\n"
-         "  -F, --font FONT             Set font (default=TODO)\n"
+         "  -F, --font FONT             Set font (default=Courier New)\n"
+         "  -b, --border PIXELS         Set border\n"
          "  -l, --list-fonts            List fonts\n"
          "  -o, --output BASE           Set output base (default=output)\n"
          "  -h, --help                  Display usage message\n"
@@ -73,13 +75,14 @@ int main(int argc, char **argv) {
     int tabstop = 8;
     int width = -1, height = -1;
     double fontsize = 10.0;
+    double border = 0;
     const char *font = "Courier New";
     if(!setlocale(LC_CTYPE, ""))
       throw std::runtime_error(std::string("setlocale: ")
                                + strerror(errno));
     Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:o:l", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:o:lb:", options, NULL)) >= 0) {
       switch(opt) {
       case 't': tabstop = atoi(optarg); break;
       case 'w': width = atoi(optarg); break;
@@ -88,6 +91,7 @@ int main(int argc, char **argv) {
       case 'F': font = optarg; break;
       case 'o': output = optarg; break;
       case 'l': CairoOutput::listFonts(); return 0;
+      case 'b': border = atof(optarg); break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
@@ -102,13 +106,14 @@ int main(int argc, char **argv) {
       CairoOutput::getEmSize(Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
                                                          1, 1),
                              fontdesc, mw, mh);
-      if(width < 0) width = 80 * mw;
-      if(height < 0) height = 66 * mh;
+      if(width < 0) width = 80 * mw + 2 * border;
+      if(height < 0) height = 66 * mh + 2 * border;
     }
     surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, 
                                           width, height);
     Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create(surface);
     CairoOutput o(context, fontdesc, newpage);
+    o.setBorder(border);
     Textfile t;
     t.setTabStop(tabstop);
     if(optind >= argc) {
