@@ -1,0 +1,17 @@
+Source: rjk-text-tools
+Maintainer: Richard Kettlewell <rjk@terraraq.org.uk>
+Section: text
+Priority: extra
+Standards-Version: 3.7.2.2
+
+Package: rjk-text-tools
+Architecture: any
+Section: text
+Priority: extra
+Depends: ${shlibs:Depends}
+Description: Text conversion tools
+ Contains tools to convert plain text to HTML, PNG, Postscript and
+ PDF.
+ .
+ Backspace-based bold and underline markup, for instance as used in
+ 'man' output, is interpreted.

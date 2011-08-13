@@ -17,3 +17,5 @@
 
 SUBDIRS=src doc
 
+EXTRA_DIST=debian/rules debian/control debian/changelog	\
+debian/copyright

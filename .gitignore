@@ -17,3 +17,7 @@ Makefile.in
 /src/texttohtml
 /src/texttopng
 /src/texttops
+/debian/debhelper.log
+/debian/files
+/debian/substvars
+/debian/tmp
