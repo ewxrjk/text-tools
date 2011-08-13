@@ -20,6 +20,8 @@
 #include <vector>
 #include <cerrno>
 #include <stdexcept>
+#include <cstring>
+#include <climits>
 
 int stringToInt(const std::string &s) {
   const char *sc = s.c_str();

@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <vector>
 #include <cerrno>
+#include <cstring>
 #include <stdexcept>
 
 double stringToDouble(const std::string &s) {
