@@ -12,8 +12,10 @@ CairoOutput::CairoOutput(Cairo::RefPtr<Cairo::Context> context_,
   font(font_),
   page(page_),
   border(0),
+  pageNumbering(false),
   boldState(false), underlineState(false),
-  x(0), y(0) {
+  x(0), y(0),
+  pageNumber(0) {
   double left, top, right, bottom;
   context->get_clip_extents(left, top, right, bottom);
   width = right - left;
@@ -23,11 +25,36 @@ CairoOutput::CairoOutput(Cairo::RefPtr<Cairo::Context> context_,
 CairoOutput::~CairoOutput() {
 }
 
-void CairoOutput::clearPage() {
+void CairoOutput::newPage() {
   x = y = 0;
   context->set_source_rgb(1.0, 1.0, 1.0); // TODO configurable
   context->paint();
   context->set_source_rgb(0.0, 0.0, 0.0); // TODO configurable
+  ++pageNumber;
+  if(title.size()) {
+    Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create(context);
+    layout->set_font_description(font);
+    layout->set_text(title);
+    const Pango::Rectangle extent = layout->get_pixel_logical_extents();
+    double left, top, right, bottom;
+    context->get_clip_extents(left, top, right, bottom);
+    context->move_to((left + right) / 2 - extent.get_width() / 2,
+                     top + border / 2 - extent.get_height() / 2);
+    layout->show_in_cairo_context(context);
+  }
+  if(pageNumbering) {
+    char buffer[20];
+    snprintf(buffer, sizeof buffer, "Page %d", pageNumber);
+    Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create(context);
+    layout->set_font_description(font);
+    layout->set_text(buffer);
+    const Pango::Rectangle extent = layout->get_pixel_logical_extents();
+    double left, top, right, bottom;
+    context->get_clip_extents(left, top, right, bottom);
+    context->move_to((left + right) / 2 - extent.get_width() / 2,
+                     bottom - border / 2 - extent.get_height() / 2);
+    layout->show_in_cairo_context(context);
+  }
 }
 
 void CairoOutput::bold(bool state) {
@@ -66,7 +93,7 @@ void CairoOutput::text(const std::wstring &s) {
 
 void CairoOutput::renderLine() {
   if(!x && !y)
-    clearPage();
+    newPage();
   // Create a Pango layout for the line
   Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create(context);
   layout->set_font_description(font);
@@ -75,7 +102,7 @@ void CairoOutput::renderLine() {
   // If the line overflows the layout, push out a page go onto the next
   if(y + extent.get_height() > height - 2 * border) {
     page(this);
-    clearPage();
+    newPage();
   }
   // Render the line
   context->move_to(x + border, y + border);
@@ -90,6 +117,7 @@ void CairoOutput::finished() {
   if(x || y) {
     page(this);
     boldState = underlineState = false;
+    pageNumber = 0;
   }
 }
 

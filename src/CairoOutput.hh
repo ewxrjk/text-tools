@@ -42,6 +42,8 @@ public:
   ~CairoOutput();
 
   inline void setBorder(double b) { border = b; }
+  inline void setPageNumbering(bool pn) { pageNumbering = pn; }
+  inline void setTitle(const std::string &t) { title = t; }
   void bold(bool state);
   void underline(bool state);
   void text(const std::wstring &s);
@@ -58,11 +60,14 @@ private:
   Pango::FontDescription font;
   void (*page)(CairoOutput *);
   double border;
+  bool pageNumbering;
+  std::string title;
   bool boldState, underlineState;
   double x, y;
   double width, height;
+  int pageNumber;
   std::wstring line;
-  void clearPage();
+  void newPage();
   void renderLine();
 };
 

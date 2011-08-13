@@ -32,6 +32,8 @@ static const struct option options[] = {
   { "output", required_argument, NULL, 'o' },
   { "list-fonts", no_argument, NULL, 'l' },
   { "border", required_argument, NULL, 'b' },
+  { "page-numbering", no_argument, NULL, 'p' },
+  { "title", required_argument, NULL, 'e' },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -48,6 +50,8 @@ static void help() {
          "  -f, --font-size SIZE        Set font size\n"
          "  -F, --font FONT             Set font (default=Courier New)\n"
          "  -b, --border PIXELS         Set border\n"
+         "  -p, --page-numbering        Enable page numbering\n"
+         "  -e, --title TITLE           Add title string\n"
          "  -l, --list-fonts            List fonts\n"
          "  -o, --output BASE           Set output base (default=output)\n"
          "  -h, --help                  Display usage message\n"
@@ -77,12 +81,14 @@ int main(int argc, char **argv) {
     double fontsize = 10.0;
     double border = 0;
     const char *font = "Courier New";
+    const char *title = NULL;
+    bool pageNumbering = false;
     if(!setlocale(LC_CTYPE, ""))
       throw std::runtime_error(std::string("setlocale: ")
                                + strerror(errno));
     Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:o:lb:", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:o:lb:pe:", options, NULL)) >= 0) {
       switch(opt) {
       case 't': tabstop = atoi(optarg); break;
       case 'w': width = atoi(optarg); break;
@@ -92,6 +98,8 @@ int main(int argc, char **argv) {
       case 'o': output = optarg; break;
       case 'l': CairoOutput::listFonts(); return 0;
       case 'b': border = atof(optarg); break;
+      case 'p': pageNumbering = true; break;
+      case 'e': title = optarg; break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
@@ -113,6 +121,8 @@ int main(int argc, char **argv) {
                                           width, height);
     Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create(surface);
     CairoOutput o(context, fontdesc, newpage);
+    o.setPageNumbering(pageNumbering);
+    if(title) o.setTitle(title);
     o.setBorder(border);
     Textfile t;
     t.setTabStop(tabstop);

@@ -31,6 +31,8 @@ static const struct option options[] = {
   { "font", required_argument, NULL, 'F' },
   { "list-fonts", no_argument, NULL, 'l' },
   { "border", required_argument, NULL, 'b' },
+  { "page-numbering", no_argument, NULL, 'p' },
+  { "title", required_argument, NULL, 'e' },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -48,6 +50,8 @@ static void help() {
          "  -f, --font-size SIZE        Set font size (default=8)\n"
          "  -F, --font FONT             Set font (default=Courier New)\n"
          "  -b, --border POINTS         Set border (default=36)\n"
+         "  -p, --page-numbering        Enable page numbering\n"
+         "  -e, --title TITLE           Add title string\n"
          "  -l, --list-fonts            List fonts\n"
          "  -h, --help                  Display usage message\n"
          "  -V, --version               Display version string\n");
@@ -82,12 +86,14 @@ int main(int argc, char **argv) {
     if(strstr(argv[0], "pdf")) type = "pdf";
     else type = "ps";
     const char *font = "Courier New";
+    const char *title = NULL;
+    bool pageNumbering = false;
     if(!setlocale(LC_CTYPE, ""))
       throw std::runtime_error(std::string("setlocale: ")
                                + strerror(errno));
     Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:l", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:pe:", options, NULL)) >= 0) {
       switch(opt) {
       case 'T': type = optarg; break;
       case 't': tabstop = atoi(optarg); break;
@@ -97,6 +103,8 @@ int main(int argc, char **argv) {
       case 'F': font = optarg; break;
       case 'l': CairoOutput::listFonts(); return 0;
       case 'b': border = atof(optarg); break;
+      case 'p': pageNumbering = true; break;
+      case 'e': title = optarg; break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
@@ -112,6 +120,8 @@ int main(int argc, char **argv) {
     fontdesc.set_size(PANGO_SCALE * fontsize);
     context = Cairo::Context::create(surface);
     CairoOutput o(context, fontdesc, newpage);
+    o.setPageNumbering(pageNumbering);
+    if(title) o.setTitle(title);
     o.setBorder(border);
     Textfile t;
     t.setTabStop(tabstop);
