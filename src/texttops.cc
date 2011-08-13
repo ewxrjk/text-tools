@@ -21,6 +21,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <getopt.h>
+#include <pangomm/init.h>
 
 static const struct option options[] = {
   { "tab", required_argument, NULL, 't' },
@@ -28,6 +29,7 @@ static const struct option options[] = {
   { "height", required_argument, NULL, 'H' },
   { "font-size", required_argument, NULL, 'f' },
   { "font", required_argument, NULL, 'F' },
+  { "list-fonts", no_argument, NULL, 'l' },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -44,6 +46,7 @@ static void help() {
          "  -H, --height POINTS         Set output file height (default=792)\n"
          "  -f, --font-size SIZE        Set font size (default=10)\n"
          "  -F, --font FONT             Set font (default=monospace)\n"
+         "  -l, --list-fonts            List fonts\n"
          "  -h, --help                  Display usage message\n"
          "  -V, --version               Display version string\n");
 }
@@ -70,17 +73,18 @@ Cairo::ErrorStatus writer(const unsigned char *data, unsigned int length) {
 int main(int argc, char **argv) {
   try {
     int tabstop = 8;
-    double width = 595, height = 841;
-    double fontsize = 10.0;
+    double width = 595, height = 841;   // A4
+    double fontsize = 8.0;
     const char *type;
     if(strstr(argv[0], "pdf")) type = "pdf";
     else type = "ps";
-    const char *font = "monospace";
+    const char *font = "Courier New";
     if(!setlocale(LC_CTYPE, ""))
       throw std::runtime_error(std::string("setlocale: ")
                                + strerror(errno));
+    Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:l", options, NULL)) >= 0) {
       switch(opt) {
       case 'T': type = optarg; break;
       case 't': tabstop = atoi(optarg); break;
@@ -88,6 +92,7 @@ int main(int argc, char **argv) {
       case 'H': height = atof(optarg); break; // TODO units
       case 'f': fontsize = atof(optarg); break;
       case 'F': font = optarg; break;
+      case 'l': CairoOutput::listFonts(); return 0;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
@@ -98,27 +103,11 @@ int main(int argc, char **argv) {
       surface = Cairo::PdfSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
     else
       surface = Cairo::PsSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
+    Pango::FontDescription fontdesc;
+    fontdesc.set_family(font);
+    fontdesc.set_size(PANGO_SCALE * fontsize);
     context = Cairo::Context::create(surface);
-    context->set_font_size(fontsize);
-    context->select_font_face(font,
-                              Cairo::FONT_SLANT_NORMAL,
-                              Cairo::FONT_WEIGHT_NORMAL);
-    Cairo::RefPtr<Cairo::FontFace> normalFont = context->get_font_face();
-    context->select_font_face(font,
-                              Cairo::FONT_SLANT_NORMAL,
-                              Cairo::FONT_WEIGHT_BOLD);
-    Cairo::RefPtr<Cairo::FontFace> boldFont = context->get_font_face();
-    context->select_font_face(font,
-                              Cairo::FONT_SLANT_ITALIC,
-                              Cairo::FONT_WEIGHT_NORMAL);
-    Cairo::RefPtr<Cairo::FontFace> italicFont = context->get_font_face();
-    context->select_font_face(font,
-                              Cairo::FONT_SLANT_ITALIC,
-                              Cairo::FONT_WEIGHT_BOLD);
-    Cairo::RefPtr<Cairo::FontFace> boldItalicFont = context->get_font_face();
-    CairoOutput o(context,
-                  normalFont, boldFont, italicFont, boldItalicFont,
-                  newpage);
+    CairoOutput o(context, fontdesc, newpage);
     Textfile t;
     t.setTabStop(tabstop);
     if(optind >= argc) {

@@ -36,11 +36,11 @@ underlined output is represented as italics.
 .TP
 .B -w\fR, \fB--width \fIPIXELS
 Set the width of the output image.
-The default is 480 pixels.
+The default is 80 columns.
 .TP
 .B -H\fR, \fB--height \fIPIXELS
 Set the height of the output image.
-The default is 792 pixels.
+The default is 66 rows.
 .TP
 .B -f\fR, \fB--font-size \fISIZE
 Set the font size.
@@ -49,6 +49,9 @@ The default is 10.
 .B -F\fR, \fB--font \fIFONT
 Set the font.
 The default is \fBmonospace\fR.
+.TP
+.B -l\fR, \fB--list-fonts
+List the known fonts.
 .TP
 .B -o\fR, \fB--output \fIBASE
 Set the base name for the output files.
@@ -63,7 +66,3 @@ Display a usage message.
 .TP
 .B -V\fR, \fB--version
 Display the version string.
-.SH "FONTS"
-Font names and sizes are passed directly to Cairo, the drawing backend
-this program uses.
-Refer to Cairo's documentation for details of how they are interpreted.

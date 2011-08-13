@@ -21,6 +21,7 @@
  */
 #include "Textfile.hh"
 #include <cairomm/cairomm.h>
+#include <pangomm.h>
 
 /** @brief Textfile processor that writes to a Cairo surface */
 class CairoOutput: public TextfileProcessor {
@@ -34,10 +35,7 @@ public:
    * @bug You can't choose the text and background color.
    */
   CairoOutput(Cairo::RefPtr<Cairo::Context> context,
-              Cairo::RefPtr<Cairo::FontFace> normalFont_,
-              Cairo::RefPtr<Cairo::FontFace> boldFont_,
-              Cairo::RefPtr<Cairo::FontFace> italicFont_,
-              Cairo::RefPtr<Cairo::FontFace> boldItalicFont_,
+              const Pango::FontDescription &font,
               void (*page)(CairoOutput *));
 
   /** @brief Destroy a CairoOutput */
@@ -48,15 +46,22 @@ public:
   void text(const std::wstring &s);
   void finished();
 
+  static void listFonts();
+  static void getEmSize(Cairo::RefPtr<Cairo::Surface> surface,
+                        const Pango::FontDescription &fontdesc,
+                        double &w, double &h);
+
 private:
   Cairo::RefPtr<Cairo::Context> context;
-  Cairo::RefPtr<Cairo::FontFace> normalFont;
-  Cairo::RefPtr<Cairo::FontFace> boldFont;
-  Cairo::RefPtr<Cairo::FontFace> italicFont;
-  Cairo::RefPtr<Cairo::FontFace> boldItalicFont;
+  Glib::RefPtr<Pango::Layout> layout;
+  Pango::FontDescription font;
   void (*page)(CairoOutput *);
   bool boldState, underlineState;
-  int row, column, rows, columns;
+  double x, y;
+  double width, height;
+  std::wstring line;
+  void clearPage();
+  void renderLine();
 };
 
 #endif /* CAIROOUTPUT_HH */
