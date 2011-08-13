@@ -33,6 +33,7 @@ static const struct option options[] = {
   { "border", required_argument, NULL, 'b' },
   { "page-numbering", no_argument, NULL, 'p' },
   { "title", required_argument, NULL, 'e' },
+  { "italic", no_argument, NULL, 'i' },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -47,6 +48,7 @@ static void help() {
          "  -t, --tab COLUMNS           Set tab size (default=8)\n"
          "  -f, --font-size SIZE        Set font size (default=8)\n"
          "  -F, --font FONT             Set font (default=Courier New)\n"
+         "  -i, --italic                Render underlined text in italic\n"
          "Layout options:\n"
          "  -w, --width POINTS          Set output file width (default=595)\n"
          "  -H, --height POINTS         Set output file height (default=841)\n"
@@ -92,12 +94,13 @@ int main(int argc, char **argv) {
     const char *font = "Courier New";
     const char *title = NULL;
     bool pageNumbering = false;
+    bool italic = false;
     if(!setlocale(LC_CTYPE, ""))
       throw std::runtime_error(std::string("setlocale: ")
                                + strerror(errno));
     Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:i", options, NULL)) >= 0) {
       switch(opt) {
       case 'y': type = optarg; break;
       case 't': tabstop = stringToInt(optarg); break;
@@ -109,6 +112,7 @@ int main(int argc, char **argv) {
       case 'b': border = stringToDouble(optarg); break;
       case 'p': pageNumbering = true; break;
       case 'T': title = optarg; break;
+      case 'i': italic = true; break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
@@ -134,6 +138,7 @@ int main(int argc, char **argv) {
     o.setPageNumbering(pageNumbering);
     if(title) o.setTitle(title);
     o.setBorder(border);
+    o.setItalic(italic);
     Textfile t;
     t.setTabStop(tabstop);
     if(optind >= argc) {

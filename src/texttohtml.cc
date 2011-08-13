@@ -25,6 +25,7 @@
 static const struct option options[] = {
   { "title", required_argument, NULL, 'T' },
   { "tab", required_argument, NULL, 't' },
+  { "italic", no_argument, NULL, 'i' },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -37,6 +38,7 @@ static void help() {
          "Options:\n"
          "  -t, --tab COLUMNS           Set tab size (default=8)\n"
          "  -T, --title TITLE           HTML <title> element\n"
+         "  -i, --italic                Render underlined text in italic\n"
          "  -h, --help                  Display usage message\n"
          "  -V, --version               Display version string\n");
 }
@@ -49,14 +51,16 @@ int main(int argc, char **argv) {
   try {
     const char *title = NULL;
     int tabstop = 8;
+    bool italic = false;
     if(!setlocale(LC_CTYPE, ""))
       throw std::runtime_error(std::string("setlocale: ")
                                + strerror(errno));
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVT:t:", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVT:t:i", options, NULL)) >= 0) {
       switch(opt) {
       case 'T': title = optarg; break;
       case 't': tabstop = stringToInt(optarg); break;
+      case 'i': italic = true; break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
@@ -65,6 +69,7 @@ int main(int argc, char **argv) {
     HtmlOutput h;
     Textfile t;
     t.setTabStop(tabstop);
+    h.setItalic(italic);
     h.output.open("-", "w");
     h.output.printf("<html>\n"
                     "<head>\n");

@@ -34,16 +34,22 @@ public:
   File output;
 
   /** @brief Construct an HTML output text processor */
-  inline HtmlOutput(): index(1), bold_index(0), underline_index(0) {}
+  inline HtmlOutput(): index(1),
+                       bold_index(0),
+                       underline_index(0),
+                       underlineAsItalic(false) {}
 
   void bold(bool state);
   void underline(bool state);
 
   void text(const std::wstring &s);
 
+  inline void setItalic(bool it) { underlineAsItalic = it; }
+
 private:
   size_t index;
   size_t bold_index, underline_index;
+  bool underlineAsItalic;
 };
 
 #endif /* HTMLOUTPUT_H */

@@ -30,8 +30,7 @@ Otherwise all the named input files are concatenated.
 The output is written to standard output.
 .PP
 The use of overprinting to represent bold and underline, for instance
-as traditionally found in \fBman\fR(1) output, is recognized, although
-underlined output is represented as italics.
+as traditionally found in \fBman\fR(1) output, is recognized.
 .SH OPTIONS
 .SS "Text Options"
 .TP
@@ -46,6 +45,9 @@ The default is 8 points.
 .B -F\fR, \fB--font \fIFONT
 Set the font.
 The default is \fBCourier New\fR.
+.TP
+.B -i\fR, \fB--italic
+Render underlined text in italics.
 .SS "Layout Options"
 .TP
 .B -w\fR, \fB--width \fIPOINTS

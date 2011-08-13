@@ -39,15 +39,15 @@ void HtmlOutput::bold(bool state) {
 void HtmlOutput::underline(bool state) {
   if(state) {
     underline_index = index;
-    output.printf("<u>");
+    output.printf(underlineAsItalic ? "<i>" : "<u>");
   } else {
     if(bold_index > underline_index) {
       bold(false);
-      output.printf("</u>");
+      output.printf(underlineAsItalic ? "</i>" : "</u>");
       underline_index = 0;
       bold(true);
     } else {
-      output.printf("</u>");
+      output.printf(underlineAsItalic ? "</i>" : "</u>");
       underline_index = 0;
     }
   }

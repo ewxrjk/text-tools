@@ -44,6 +44,7 @@ public:
   inline void setBorder(double b) { border = b; }
   inline void setPageNumbering(bool pn) { pageNumbering = pn; }
   inline void setTitle(const std::string &t) { title = t; }
+  inline void setItalic(bool it) { underlineAsItalic = it; }
   void bold(bool state);
   void underline(bool state);
   void text(const std::wstring &s);
@@ -62,6 +63,7 @@ private:
   double border;
   bool pageNumbering;
   std::string title;
+  bool underlineAsItalic;
   bool boldState, underlineState;
   double x, y;
   double width, height;

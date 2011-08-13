@@ -13,6 +13,7 @@ CairoOutput::CairoOutput(Cairo::RefPtr<Cairo::Context> context_,
   page(page_),
   border(0),
   pageNumbering(false),
+  underlineAsItalic(false),
   boldState(false), underlineState(false),
   x(0), y(0),
   pageNumber(0) {
@@ -69,7 +70,7 @@ void CairoOutput::text(const std::wstring &s) {
   while(n < s.size()) {
     if(s[n] != LINE_FEED) {
       if(boldState) line += L"<b>";
-      if(underlineState) line += L"<i>";
+      if(underlineState) line += underlineAsItalic ? L"<i>" : L"<u>";
       switch(s[n]) {
       default:
         line += s[n];
@@ -82,7 +83,7 @@ void CairoOutput::text(const std::wstring &s) {
         break;
       }
       }
-      if(underlineState) line += L"</i>";
+      if(underlineState) line += underlineAsItalic ? L"</i>" : L"</u>";
       if(boldState) line += L"</b>";
     } else
       renderLine();
