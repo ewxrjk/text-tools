@@ -2,13 +2,12 @@ Source: rjk-text-tools
 Maintainer: Richard Kettlewell <rjk@terraraq.org.uk>
 Section: text
 Priority: extra
-Standards-Version: 3.7.2.2
+Standards-Version: 3.9.1.0
+Build-Depends: debhelper (>=8),libpangomm-1.4-dev,libcairomm-1.0-dev,pkg-config
 
 Package: rjk-text-tools
 Architecture: any
-Section: text
-Priority: extra
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends},${misc:Depends}
 Description: Text conversion tools
  Contains tools to convert plain text to HTML, PNG, Postscript and
  PDF.

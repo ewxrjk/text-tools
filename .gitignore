@@ -17,10 +17,8 @@ Makefile.in
 /src/texttohtml
 /src/texttopng
 /src/texttops
-/debian/debhelper.log
 /debian/files
-/debian/substvars
-/debian/tmp
+/debian/rjk-text-tools*
 /doc/texttops.1
 /doc/texttopdf.1
 /doc/texttopng.1
