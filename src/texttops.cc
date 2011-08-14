@@ -17,6 +17,7 @@
 #include <config.h>
 #include "CairoOutput.hh"
 #include "Utils.hh"
+#include "Optional.hh"
 #include <cerrno>
 #include <cstring>
 #include <cstdlib>
@@ -101,9 +102,9 @@ Cairo::ErrorStatus writer(const unsigned char *data, unsigned int length) {
 int main(int argc, char **argv) {
   try {
     int tabstop = 8;
-    double width = -1, height = -1;
-    double fontsize = -1;
-    double border = -1;
+    Optional<double> width, height;
+    Optional<double> fontsize;
+    Optional<double> border;
     std::string type;
     if(strstr(argv[0], "pdf")) type = "pdf";
     else if(strstr(argv[0], "png")) type = "png";
@@ -138,35 +139,35 @@ int main(int argc, char **argv) {
     }
     if(tabstop <= 0)
       throw std::runtime_error("invalid top stop size");
-    if(width == 0 || height == 0)
-      throw std::runtime_error("invalid page dimensions");
-    if(!fontsize)
-      throw std::runtime_error("invalid font size");
-    if(!border)
-      throw std::runtime_error("invalid border size");
-    if(fontsize < 0) fontsize = 8.0;
+    if(!fontsize.exists()) fontsize = 8.0;
     if(type == "png") {
       if(!output) output = "output";
-      if(border < 0) border = 0;
+      if(!border.exists()) border = 0;
     } else {
-      if(border < 0) border = 36.0;
+      if(!border.exists()) border = 36.0;
     }
+    if(border <= 0.0)
+      throw std::runtime_error("invalid border size");
+    if(fontsize <= 0.0)
+      throw std::runtime_error("invalid font size");
     Pango::FontDescription fontdesc;
     fontdesc.set_family(font);
     fontdesc.set_size(PANGO_SCALE * fontsize);
-    if(width < 0 || height < 0) {
+    if(!width.exists() || !height.exists()) {
       if(type == "png") {
         double mw, mh;
         CairoOutput::getEmSize(Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
                                                            1, 1),
                                fontdesc, mw, mh);
-        if(width < 0) width = 80 * mw + 2 * border;
-        if(height < 0) height = 66 * mh + 2 * border;
+        if(!width.exists()) width = 80 * mw + 2 * border;
+        if(!height.exists()) height = 66 * mh + 2 * border;
       } else {
-        if(width < 0) width = 595;
-        if(height < 0) height = 841;
+        if(!width.exists()) width = 595;
+        if(!height.exists()) height = 841;
       }
     }
+    if(width <= 0 || height <= 0)
+      throw std::runtime_error("invalid page dimensions");
     void (*newpage)(CairoOutput *);
     if(type == "png") {
       newpage = newpage_png;

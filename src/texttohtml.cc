@@ -66,6 +66,8 @@ int main(int argc, char **argv) {
       default: return 1;
       }
     }
+    if(tabstop <= 0)
+      throw std::runtime_error("invalid top stop size");
     HtmlOutput h;
     Textfile t;
     t.setTabStop(tabstop);

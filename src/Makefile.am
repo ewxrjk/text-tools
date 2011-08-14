@@ -20,10 +20,11 @@ AM_CXXFLAGS=${CAIROMM_CFLAGS}
 bin_PROGRAMS=texttohtml texttops
 texttohtml_SOURCES=File.cc HtmlOutput.cc narrowToWide.cc Textfile.cc	\
 TextfileProcessor.cc texttohtml.cc Characters.hh File.hh HtmlOutput.hh	\
-Textfile.hh Utils.hh stringToInt.cc
+Textfile.hh Utils.hh stringToInt.cc Optional.hh
 texttops_SOURCES=File.cc CairoOutput.cc Textfile.cc			\
 TextfileProcessor.cc texttops.cc Characters.hh File.hh CairoOutput.hh	\
-Textfile.hh Utils.hh wideToUtf8.cc stringToInt.cc stringToDouble.cc
+Textfile.hh Utils.hh wideToUtf8.cc stringToInt.cc stringToDouble.cc	\
+Optional.hh
 texttops_LDFLAGS=${CAIROMM_LIBS}
 
 install-exec-hook:
