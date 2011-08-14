@@ -35,6 +35,7 @@ static const struct option options[] = {
   { "title", required_argument, NULL, 'T' },
   { "italic", no_argument, NULL, 'i' },
   { "type", required_argument, NULL, 'y' },
+  { "output", required_argument, NULL, 'o' },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -46,20 +47,24 @@ static void help() {
          "  texttops --list-fonts\n"
          "\n"
          "Text options:\n"
-         "  -t, --tab COLUMNS           Set tab size (default=8)\n"
-         "  -f, --font-size SIZE        Set font size (default=8)\n"
-         "  -F, --font FONT             Set font (default=Courier New)\n"
+         "  -t, --tab COLUMNS           Set tab size\n"
+         "  -f, --font-size SIZE        Set font size\n"
+         "  -F, --font FONT             Set font\n"
          "  -i, --italic                Render underlined text in italic\n"
          "Layout options:\n"
-         "  -w, --width POINTS          Set output file width (default=595)\n"
-         "  -H, --height POINTS         Set output file height (default=841)\n"
-         "  -b, --border POINTS         Set border (default=36)\n"
+         "  -w, --width POINTS          Set output file width\n"
+         "  -H, --height POINTS         Set output file height\n"
+         "  -b, --border POINTS         Set border\n"
          "  -T, --title TITLE           Top-of-page title string\n"
          "  -p, --page-numbering        Enable page numbering\n"
+         "     Title and page numbering require a nontrivial border\n"
          "Output options:\n"
-         "  -y, --type TYPE             Set output type (pdf or ps)\n"
+         "  -y, --type TYPE             Set output type (pdf, ps, png)\n"
+         "  -o, --output OUTPUT         Output filename\n"
+         "     PNG output goes to OUTPUT0.png, OUTPUT1.png, ...; default=output\n"
+         "     PS/PDF goes to stdout by default.\n"
          "Other options:\n"
-         "  -l, --list-fonts            List fonts\n"
+         "  -l, --list-fonts            List available fonts\n"
          "  -h, --help                  Display usage message\n"
          "  -V, --version               Display version string\n");
 }
@@ -70,9 +75,19 @@ static void version() {
 
 static Cairo::RefPtr<Cairo::Surface> surface;
 static Cairo::RefPtr<Cairo::Context> context;
+static int count;
+static const char *output;
 
-static void newpage(CairoOutput *) {
+static void newpage_ps(CairoOutput *) {
   context->show_page();
+}
+
+static void newpage_png(CairoOutput *) {
+  char *buffer;
+  if(asprintf(&buffer, "%s%d.png", output, count++) < 0)
+    throw std::runtime_error(std::string("asprintf: ") + strerror(errno));
+  surface->write_to_png(buffer);
+  free(buffer);
 }
 
 Cairo::ErrorStatus writer(const unsigned char *data, unsigned int length) {
@@ -86,11 +101,12 @@ Cairo::ErrorStatus writer(const unsigned char *data, unsigned int length) {
 int main(int argc, char **argv) {
   try {
     int tabstop = 8;
-    double width = 595, height = 841;   // A4
-    double fontsize = 8.0;
-    double border = 36.0;
-    const char *type;
+    double width = -1, height = -1;
+    double fontsize = -1;
+    double border = -1;
+    std::string type;
     if(strstr(argv[0], "pdf")) type = "pdf";
+    else if(strstr(argv[0], "png")) type = "png";
     else type = "ps";
     const char *font = "Courier New";
     const char *title = NULL;
@@ -101,7 +117,7 @@ int main(int argc, char **argv) {
                                + strerror(errno));
     Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:i", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:io:", options, NULL)) >= 0) {
       switch(opt) {
       case 'y': type = optarg; break;
       case 't': tabstop = stringToInt(optarg); break;
@@ -114,6 +130,7 @@ int main(int argc, char **argv) {
       case 'p': pageNumbering = true; break;
       case 'T': title = optarg; break;
       case 'i': italic = true; break;
+      case 'o': output = optarg; break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
@@ -121,19 +138,53 @@ int main(int argc, char **argv) {
     }
     if(tabstop <= 0)
       throw std::runtime_error("invalid top stop size");
-    if(width <= 0 || height <= 0)
+    if(width == 0 || height == 0)
       throw std::runtime_error("invalid page dimensions");
-    if(fontsize <= 0)
+    if(!fontsize)
       throw std::runtime_error("invalid font size");
-    if(border < 0)
+    if(!border)
       throw std::runtime_error("invalid border size");
-    if(!strcmp(type, "pdf"))
-      surface = Cairo::PdfSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
-    else
-      surface = Cairo::PsSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
+    if(fontsize < 0) fontsize = 8.0;
+    if(type == "png") {
+      if(!output) output = "output";
+      if(border < 0) border = 0;
+    } else {
+      if(border < 0) border = 36.0;
+    }
     Pango::FontDescription fontdesc;
     fontdesc.set_family(font);
     fontdesc.set_size(PANGO_SCALE * fontsize);
+    if(width < 0 || height < 0) {
+      if(type == "png") {
+        double mw, mh;
+        CairoOutput::getEmSize(Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
+                                                           1, 1),
+                               fontdesc, mw, mh);
+        if(width < 0) width = 80 * mw + 2 * border;
+        if(height < 0) height = 66 * mh + 2 * border;
+      } else {
+        if(width < 0) width = 595;
+        if(height < 0) height = 841;
+      }
+    }
+    void (*newpage)(CairoOutput *);
+    if(type == "png") {
+      newpage = newpage_png;
+    } else {
+      newpage = newpage_ps;
+      if(output)
+        if(!freopen(output, "wb", stdout))
+          throw std::runtime_error(std::string("opening ") + output + ": " + strerror(errno));
+    }
+    if(type == "pdf")
+      surface = Cairo::PdfSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
+    else if(type == "ps")
+      surface = Cairo::PsSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
+    else if(type == "png")
+      surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
+                                            width, height);
+    else
+      throw std::runtime_error("unrecognized output type");
     context = Cairo::Context::create(surface);
     CairoOutput o(context, fontdesc, newpage);
     o.setPageNumbering(pageNumbering);

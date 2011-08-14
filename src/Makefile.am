@@ -17,14 +17,10 @@
 
 AM_CXXFLAGS=${CAIROMM_CFLAGS}
 
-bin_PROGRAMS=texttohtml texttopng texttops
+bin_PROGRAMS=texttohtml texttops
 texttohtml_SOURCES=File.cc HtmlOutput.cc narrowToWide.cc Textfile.cc	\
 TextfileProcessor.cc texttohtml.cc Characters.hh File.hh HtmlOutput.hh	\
 Textfile.hh Utils.hh stringToInt.cc
-texttopng_SOURCES=File.cc CairoOutput.cc Textfile.cc			\
-TextfileProcessor.cc texttopng.cc Characters.hh File.hh CairoOutput.hh	\
-Textfile.hh Utils.hh wideToUtf8.cc stringToInt.cc stringToDouble.cc
-texttopng_LDFLAGS=${CAIROMM_LIBS}
 texttops_SOURCES=File.cc CairoOutput.cc Textfile.cc			\
 TextfileProcessor.cc texttops.cc Characters.hh File.hh CairoOutput.hh	\
 Textfile.hh Utils.hh wideToUtf8.cc stringToInt.cc stringToDouble.cc
@@ -34,6 +30,10 @@ install-exec-hook:
 	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
 	ln -s texttops$(EXEEXT) \
 		$(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
+	rm -f $(DESTDIR)$(bindir)/texttopng$(EXEEXT)
+	ln -s texttops$(EXEEXT) \
+		$(DESTDIR)$(bindir)/texttopng$(EXEEXT)
 
 uninstall-local:
 	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
+	rm -f $(DESTDIR)$(bindir)/texttopng$(EXEEXT)

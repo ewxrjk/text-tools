@@ -15,8 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-dist_man_MANS=texttohtml.1 texttopng.1
-man_MANS=texttops.1 texttopdf.1
+dist_man_MANS=texttohtml.1
+man_MANS=texttops.1 texttopdf.1 texttopng.1
 EXTRA_DIST=texttops.1.in
 
 all: texttops.1 texttopdf.1
@@ -31,5 +31,10 @@ texttopdf.1: texttops.1.in
 		-e 's/%ps%/pdf/g;' \
 		-e 's/%postscript%/PDF/g'
 
+texttopng.1: texttops.1.in
+	sed < $^ > $@ \
+		-e 's/%ps%/png/g;' \
+		-e 's/%postscript%/PNG/g'
+
 clean-local:
-	rm -f texttops.1 texttopdf.1
+	rm -f texttops.1 texttopdf.1 texttopng.1

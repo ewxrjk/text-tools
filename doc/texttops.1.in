@@ -19,6 +19,8 @@
 texttops \- convert text to %postscript%
 .SH SYNOPSIS
 \fBtextto%ps%\fR [\fIOPTIONS\fR] [\fB--\fR] [\fIINPUT\fR ...]
+.nf
+\fBtextto%ps% --list-fonts\fR
 .SH DESCRIPTION
 \fBtextto%ps%\fR reads one or more text files and converts them to a
 %postscript% file.
@@ -26,8 +28,6 @@ texttops \- convert text to %postscript%
 If there are no \fIINPUT\fR arguments then input is read from standard
 input.
 Otherwise all the named input files are concatenated.
-.PP
-The output is written to standard output.
 .PP
 The use of overprinting to represent bold and underline, for instance
 as traditionally found in \fBman\fR(1) output, is recognized.
@@ -52,18 +52,22 @@ Render underlined text in italics.
 .TP
 .B -w\fR, \fB--width \fIPOINTS
 Set the width of the output image.
-The default is 595 points.
+The default is 595 points for Postscript and PDF output, and enough to
+fit 80 columns for PNG output.
 .TP
 .B -H\fR, \fB--height \fIPOINTS
 Set the height of the output image.
-The default is 841 points.
+The default is 841 points for Postscript and PDF output, and enough to
+fit 66 rows for PNG output.
 .TP
 .B -b\fR, \fB--border \fIPOINTS
 Set the border size.
-The default is 36 points.
+The default is 36 points for Postscript and PDF output, and none for
+PNG output.
 .TP
 .B -T\fR, \fB--title \fITITLE
 Add a title to each page.
+The border must be large enough for the title.
 .TP
 .B -p\fR, \fB--page-numbering
 Enable page numbering.
@@ -74,6 +78,16 @@ The border must be large enough for the page number.
 Set the output type.
 \fITYPE\fR can be \fBps\fR or \fBpdf\fR.
 The default is \fB%ps%\fR.
+.TP
+.B -o\fR, \fB--output \fIOUTPUT
+Set the output file.
+.IP
+For Postscript and PDF, the output is written to file \fIOUTPUT\fR, or
+to standard output \fB--output\fR is not specified.
+.IP
+For PNG, the output is written to \fIOUTPUT\fB0.png\fR,
+\fIOUTPUT\fB1.png\fR, and so on.
+The default is just \fBoutput\fR, giving \fBoutput0.png\fR etc.
 .SS "Other Options"
 .TP
 .B -l\fR, \fB--list-fonts
