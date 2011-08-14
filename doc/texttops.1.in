@@ -18,9 +18,9 @@
 .SH NAME
 texttops \- convert text to %postscript%
 .SH SYNOPSIS
-\fBtextto%ps%\fR [\fIOPTIONS\fR] [\fB--\fR] [\fIINPUT\fR ...]
+\fBtextto%ps%\fR [\fIOPTIONS\fR] [\fB\-\-\fR] [\fIINPUT\fR ...]
 .nf
-\fBtextto%ps% --list-fonts\fR
+\fBtextto%ps% \-\-list\-fonts\fR
 .SH DESCRIPTION
 \fBtextto%ps%\fR reads one or more text files and converts them to a
 %postscript% file.
@@ -34,67 +34,67 @@ as traditionally found in \fBman\fR(1) output, is recognized.
 .SH OPTIONS
 .SS "Text Options"
 .TP
-.B -t\fR, \fB--tab \fICOLUMNS
+.B \-t\fR, \fB\-\-tab \fICOLUMNS
 Set the size of a tab.
 The default is 8 columns.
 .TP
-.B -f\fR, \fB--font-size \fIPOINTS
+.B \-f\fR, \fB\-\-font\-size \fIPOINTS
 Set the font size.
 The default is 8 points.
 .TP
-.B -F\fR, \fB--font \fIFONT
+.B \-F\fR, \fB\-\-font \fIFONT
 Set the font.
 The default is \fBCourier New\fR.
 .TP
-.B -i\fR, \fB--italic
+.B \-i\fR, \fB\-\-italic
 Render underlined text in italics.
 .SS "Layout Options"
 .TP
-.B -w\fR, \fB--width \fIPOINTS
+.B \-w\fR, \fB\-\-width \fIPOINTS
 Set the width of the output image.
 The default is 595 points for Postscript and PDF output, and enough to
 fit 80 columns for PNG output.
 .TP
-.B -H\fR, \fB--height \fIPOINTS
+.B \-H\fR, \fB\-\-height \fIPOINTS
 Set the height of the output image.
 The default is 841 points for Postscript and PDF output, and enough to
 fit 66 rows for PNG output.
 .TP
-.B -b\fR, \fB--border \fIPOINTS
+.B \-b\fR, \fB\-\-border \fIPOINTS
 Set the border size.
 The default is 36 points for Postscript and PDF output, and none for
 PNG output.
 .TP
-.B -T\fR, \fB--title \fITITLE
+.B \-T\fR, \fB\-\-title \fITITLE
 Add a title to each page.
 The border must be large enough for the title.
 .TP
-.B -p\fR, \fB--page-numbering
+.B \-p\fR, \fB\-\-page\-numbering
 Enable page numbering.
 The border must be large enough for the page number.
 .SS "Output Options"
 .TP
-.B -y\fR, \fB--type \fITYPE
+.B \-y\fR, \fB\-\-type \fITYPE
 Set the output type.
 \fITYPE\fR can be \fBps\fR or \fBpdf\fR.
 The default is \fB%ps%\fR.
 .TP
-.B -o\fR, \fB--output \fIOUTPUT
+.B \-o\fR, \fB\-\-output \fIOUTPUT
 Set the output file.
 .IP
 For Postscript and PDF, the output is written to file \fIOUTPUT\fR, or
-to standard output \fB--output\fR is not specified.
+to standard output \fB\-\-output\fR is not specified.
 .IP
 For PNG, the output is written to \fIOUTPUT\fB0.png\fR,
 \fIOUTPUT\fB1.png\fR, and so on.
 The default is just \fBoutput\fR, giving \fBoutput0.png\fR etc.
 .SS "Other Options"
 .TP
-.B -l\fR, \fB--list-fonts
+.B \-l\fR, \fB\-\-list\-fonts
 List the known fonts.
 .TP
-.B -h\fR, \fB--help
+.B \-h\fR, \fB\-\-help
 Display a usage message.
 .TP
-.B -V\fR, \fB--version
+.B \-V\fR, \fB\-\-version
 Display the version string.
