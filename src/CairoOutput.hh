@@ -28,6 +28,7 @@ class CairoOutput: public TextfileProcessor {
 public:
   /** @brief Construct a CairoOutput
    * @param context Rendering context
+   * @param font Font in which to render text
    * @param page Function called when a complete page has been rendered
    *
    * @p context should already have a suitable font configured.
@@ -41,16 +42,42 @@ public:
   /** @brief Destroy a CairoOutput */
   ~CairoOutput();
 
+  /** @brief Set the border size
+   * @param b New border size
+   */
   inline void setBorder(double b) { border = b; }
+
+  /** @brief Set page numbering mode
+   * @param pn If @c true, pages will be numbered
+   *
+   * The title will appear at the bottom of each page.
+   */
   inline void setPageNumbering(bool pn) { pageNumbering = pn; }
+
+  /** @brief Set title
+   * @param t Title string
+   *
+   * The title will appear at the top of each page.
+   */
   inline void setTitle(const std::string &t) { title = t; }
+
+  /** @brief Set italic mode
+   * @param it If @c true, underlined text will be rendered in italic */
   inline void setItalic(bool it) { underlineAsItalic = it; }
   void bold(bool state);
   void underline(bool state);
   void text(const std::wstring &s);
   void finished();
 
+  /** @brief List available fonts to standard output */
   static void listFonts();
+
+  /** @brief Get rudimentary font metric information
+   * @param surface Target surface
+   * @param fontdesc Font description
+   * @param w Width of an @c M
+   * @param h Height of an @c M
+   */
   static void getEmSize(Cairo::RefPtr<Cairo::Surface> surface,
                         const Pango::FontDescription &fontdesc,
                         double &w, double &h);

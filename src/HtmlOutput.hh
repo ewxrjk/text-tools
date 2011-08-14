@@ -44,6 +44,8 @@ public:
 
   void text(const std::wstring &s);
 
+  /** @brief Set italic mode
+   * @param it If @c true, underlined text will be rendered in italic */
   inline void setItalic(bool it) { underlineAsItalic = it; }
 
 private:

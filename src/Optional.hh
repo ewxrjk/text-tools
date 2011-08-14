@@ -21,16 +21,38 @@
  */
 #include <stdexcept>
 
+/** @brief Optional value template
+ * @param T type to wrap
+ *
+ * Adds an extra "nonexistent" value to type @p T.
+ */
 template<typename T>
 class Optional {
 public:
+  /** @brief Construct with a nonexistent value */
   inline Optional(): present(false), value() {}
+
+  /** @brief Construct with an existing value
+   * @param x Initial value
+   */
   inline Optional(const T &x): present(true), value(x) {}
+
+  /** @brief Test whether the value exists
+   * @return @c true if the value exists and @c false otherwise
+   */
   inline bool exists() const { return present; }
+
+  /** @brief Return the (existing) value
+   * @return The value
+   * @exception std::logic_error if the value does not exist
+   */
   inline operator T &() {
     if(!present) throw std::logic_error("retrieving an absent optional value");
     return value;
   }
+
+  /** @brief Assign from an existing value
+   * @param x New value */
   inline Optional &operator=(const T &x) {
     present = true;
     value = x;
