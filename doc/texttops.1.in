@@ -98,3 +98,7 @@ Display a usage message.
 .TP
 .B \-V\fR, \fB\-\-version
 Display the version string.
+.SH BUGS
+Postscript output lacks appropriate DSC comments to describe the page size.
+This is due to a limitation in the underlying rendering library.
+It is believed to be fixed in Cairo 1.9.4.
