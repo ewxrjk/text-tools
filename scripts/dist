@@ -1,3 +1,4 @@
+#! /bin/bash
 #
 # Copyright (C) 2011 Richard Kettlewell
 #
@@ -14,9 +15,33 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+set -e
+set -x
 
-SUBDIRS=src doc
+build() {
+    local arch=$1
+    local chroot=$2
 
-EXTRA_DIST=debian/rules debian/control debian/changelog	\
-debian/copyright scripts/dist
+    tar xf ${archive}
+    cd ${dir}
+    schroot -pc${chroot} fakeroot debian/rules build binary
+    cd ..
+    mv ${deb_prefix}${package}_${version}_${arch}.deb products/.
+    rm -rf ${dir}
+}
 
+make distcheck
+
+deb_prefix=rjk-
+package=$(awk '/^PACKAGE_NAME =/ { print $3 }' < Makefile)
+version=$(awk '/^PACKAGE_VERSION =/ { print $3 }' < Makefile)
+dir=${package}-${version}
+archive=${package}-${version}.tar.gz
+
+rm -rf products ${dir}
+mkdir products
+cp ${archive} products/.
+
+build i386 squeeze32
+build amd64 squeeze64
+ls -l products

@@ -1,3 +1,97 @@
 #!/usr/bin/make -f
-%:
-	dh $@
+#
+# Copyright (C) 2011 Richard Kettlewell
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Options to configure.  This can be overridden by the caller if necessary.
+CONFIGURE=--prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man
+# ...you can also set CONFIGURE_EXTRA.
+
+# Set DEB_BUILD_OPTIONS=noopt to produce a non-optimized build.
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+CFLAGS=-O0 -g
+else
+CFLAGS=-O2 -g
+endif
+export CFLAGS
+
+# Set DEB_BUILD_OPTIONS=nostrip to install debuggable executables.
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+INSTALL_PROGRAM += -s
+endif
+
+# Set DEB_BUILD_OPTIONS=parallel=N to do make -jN
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+PARALLEL = -j$(NUMJOBS)
+endif
+
+# Install commands.  You wouldn't normally override these.
+INSTALL=install
+INSTALL_DATA=$(INSTALL) -p -o root -g root -m 644
+INSTALL_PROGRAM=$(INSTALL) -p -o root -g root -m 755
+INSTALL_SCRIPT=$(INSTALL) -p -o root -g root -m 755
+MKDIR=mkdir -p -m 755
+
+export INSTALL_DATA
+export INSTALL_SCRIPT
+export INSTALL_PROGRAM
+
+SHELL=bash
+
+# ./autogen.sh is the script that generates configure etc.  It only needs to be
+# run if building from a checkout rather than a tarball.
+build:
+	test -f configure || ./autogen.sh
+	./configure ${CONFIGURE} ${CONFIGURE_EXTRA}
+	$(MAKE)
+
+pkg-rjk-text-tools: build
+	rm -rf debian/rjk-text-tools
+	$(MKDIR) debian/rjk-text-tools/DEBIAN
+	$(MKDIR) debian/rjk-text-tools/usr/share/doc/rjk-text-tools
+	$(INSTALL_DATA) debian/copyright \
+		debian/rjk-text-tools/usr/share/doc/rjk-text-tools/copyright
+	$(INSTALL_DATA) debian/changelog \
+		debian/rjk-text-tools/usr/share/doc/rjk-text-tools/changelog
+	$(MAKE) installdirs install DESTDIR=$(shell pwd)/debian/rjk-text-tools
+	strip --remove-section=.comment debian/rjk-text-tools/usr/bin/texttops
+	strip --remove-section=.comment debian/rjk-text-tools/usr/bin/texttohtml
+	gzip -9f debian/rjk-text-tools/usr/share/doc/rjk-text-tools/changelog*
+	gzip -9f debian/rjk-text-tools/usr/share/man/man*/*
+	dpkg-shlibdeps -Tdebian/substvars.rjk-text-tools \
+		debian/rjk-text-tools/usr/bin/*
+	cd debian/rjk-text-tools && \
+		find -name DEBIAN -prune -o -type f -print \
+			| sed 's/^\.\///' \
+			| xargs md5sum > DEBIAN/md5sums
+	dpkg-gencontrol -isp -prjk-text-tools -Pdebian/rjk-text-tools -Tdebian/substvars.rjk-text-tools
+	chown -R root:root debian/rjk-text-tools
+	chmod -R g-ws debian/rjk-text-tools
+	dpkg --build debian/rjk-text-tools ..
+
+binary: binary-arch binary-indep
+binary-arch: pkg-rjk-text-tools
+binary-indep: 
+
+clean:
+	if test -f Makefile; then $(MAKE) distclean; fi
+	rm -f config.cache
+	rm -f debian/files
+	rm -f debian/substvars.*
+	rm -rf debian/rjk-text-tools
+
+.PHONY: clean build pkg-rjk-text-tools binary binary-arch binary-indep

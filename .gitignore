@@ -22,3 +22,5 @@ Makefile.in
 /doc/texttops.1
 /doc/texttopdf.1
 /doc/texttopng.1
+/debian/substvars.*
+/products

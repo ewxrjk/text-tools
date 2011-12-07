@@ -3,7 +3,7 @@ Maintainer: Richard Kettlewell <rjk@terraraq.org.uk>
 Section: text
 Priority: extra
 Standards-Version: 3.9.1.0
-Build-Depends: debhelper (>=8),libpangomm-1.4-dev,libcairomm-1.0-dev,pkg-config
+Build-Depends: libpangomm-1.4-dev,libcairomm-1.0-dev,pkg-config
 
 Package: rjk-text-tools
 Architecture: any
