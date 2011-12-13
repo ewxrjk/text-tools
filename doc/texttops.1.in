@@ -76,7 +76,7 @@ The border must be large enough for the page number.
 .TP
 .B \-y\fR, \fB\-\-type \fITYPE
 Set the output type.
-\fITYPE\fR can be \fBps\fR or \fBpdf\fR.
+\fITYPE\fR can be \fBps\fR, \fBpdf\fR or \fBpng\fR.
 The default is \fB%ps%\fR.
 .TP
 .B \-o\fR, \fB\-\-output \fIOUTPUT
