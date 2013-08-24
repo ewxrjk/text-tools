@@ -18,7 +18,7 @@
 AC_PREREQ([2.61])
 AC_INIT([text-tools],[0.DEV],[rjk@terraraq.org.uk])
 AC_CONFIG_AUX_DIR([config.aux])
-AM_INIT_AUTOMAKE([1.10])
+AM_INIT_AUTOMAKE([foreign])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
 AC_CONFIG_SRCDIR([src/Textfile.hh])
 AC_CONFIG_HEADER([config.h])
