@@ -60,10 +60,10 @@ static void help() {
          "  -p, --page-numbering        Enable page numbering\n"
          "     Title and page numbering require a nontrivial border\n"
          "Output options:\n"
-         "  -y, --type TYPE             Set output type (pdf, ps, png)\n"
+         "  -y, --type TYPE             Set output type (pdf, ps, png, svg)\n"
          "  -o, --output OUTPUT         Output filename\n"
          "     PNG output goes to OUTPUT0.png, OUTPUT1.png, ...; default=output\n"
-         "     PS/PDF goes to stdout by default.\n"
+         "     PS/PDF/SVG goes to stdout by default.\n"
          "Other options:\n"
          "  -l, --list-fonts            List available fonts\n"
          "  -h, --help                  Display usage message\n"
@@ -154,7 +154,7 @@ int main(int argc, char **argv) {
     fontdesc.set_family(font);
     fontdesc.set_size(PANGO_SCALE * fontsize);
     if(!width.exists() || !height.exists()) {
-      if(type == "png") {
+      if(type == "png" || type == "svg") {
         double mw, mh;
         CairoOutput::getEmSize(Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
                                                            1, 1),
@@ -184,6 +184,8 @@ int main(int argc, char **argv) {
     else if(type == "png")
       surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
                                             width, height);
+    else if(type == "svg")
+      surface = Cairo::SvgSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
     else
       throw std::runtime_error("unrecognized output type");
     context = Cairo::Context::create(surface);
