@@ -25,7 +25,7 @@ texttops_SOURCES=File.cc CairoOutput.cc Textfile.cc			\
 TextfileProcessor.cc texttops.cc Characters.hh File.hh CairoOutput.hh	\
 Textfile.hh Utils.hh wideToUtf8.cc stringToInt.cc stringToDouble.cc	\
 Optional.hh
-texttops_LDFLAGS=${CAIROMM_LIBS}
+texttops_LDADD=${CAIROMM_LIBS}
 
 install-exec-hook:
 	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
