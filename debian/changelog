@@ -1,6 +1,5 @@
-rjk-text-tools (0.DEV) unstable; urgency=low
+rjk-text-tools (0.1) unstable; urgency=low
 
-  * This is the development branch.
+  * First versioned release.
 
- -- Richard Kettlewell <rjk@greenend.org.uk>  Sat, 13 Aug 2011 19:25:50 +0100
-
+ -- Richard Kettlewell <rjk@greenend.org.uk>  Fri, 25 Oct 2013 18:00:12 +0100
