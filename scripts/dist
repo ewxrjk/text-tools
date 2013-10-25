@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# Copyright (C) 2011 Richard Kettlewell
+# Copyright (C) 2011,13 Richard Kettlewell
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,12 +19,19 @@ set -e
 set -x
 
 build() {
-    local arch=$1
-    local chroot=$2
+    local arch="$1"
+    local chroot="$2"
+    local prefix
+
+    if [ "$chroot" = "" ]; then
+      prefix=""
+    else
+      prefix="schroot -pc${chroot} --"
+    fi
 
     tar xf ${archive}
     cd ${dir}
-    schroot -pc${chroot} fakeroot debian/rules build binary
+    $prefix fakeroot debian/rules build binary
     cd ..
     mv ${deb_prefix}${package}_${version}_${arch}.deb products/.
     rm -rf ${dir}
@@ -42,6 +49,6 @@ rm -rf products ${dir}
 mkdir products
 cp ${archive} products/.
 
-build i386 squeeze32
-build amd64 squeeze64
+build i386 wheezy32
+build amd64
 ls -l products
