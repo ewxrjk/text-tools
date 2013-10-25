@@ -24,3 +24,4 @@ Makefile.in
 /doc/texttopng.1
 /debian/substvars.*
 /products
+/doc/html
