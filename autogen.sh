@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 srcdir=$(dirname $0)
 here=$(pwd)
