@@ -1,5 +1,5 @@
 // 
-// Copyright (C) 2011 Richard Kettlewell
+// Copyright (C) 2011, 2014 Richard Kettlewell
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 #include <cerrno>
 #include <cstring>
 #include <cstdlib>
+#include <clocale>
 #include <getopt.h>
 
 static const struct option options[] = {
