@@ -1,5 +1,8 @@
 .deps
 *~
+*.gcno
+*.gcda
+*.gcov
 *.o
 *.tar.gz
 Makefile
@@ -22,6 +25,7 @@ Makefile.in
 /src/t-s2i
 /src/t-w2u
 /src/t-file
+/src/t-textfile
 /src/*.log
 /src/*.trs
 /debian/files

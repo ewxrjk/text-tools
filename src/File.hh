@@ -116,6 +116,13 @@ public:
    */
   void put(int c);
 
+  /** @brief Write a wide character
+   * @param wc Character to write
+   * @exception std::logic_error The file is not open
+   * @exception std::runtime_error A write error occurred
+   */
+  void putw(int wc);
+
 private:
   FILE *fp;
   std::string path;

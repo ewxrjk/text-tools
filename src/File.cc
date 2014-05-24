@@ -83,3 +83,9 @@ void File::put(int c) {
   if(putc(c, fp) < 0)
     throw std::runtime_error("writing " + path + ": " + strerror(errno));
 }
+
+void File::putw(int wc) {
+  if(!fp) throw std::logic_error("File::putw when closed");
+  if(putwc(wc, fp) == WEOF)
+    throw std::runtime_error("writing " + path + ": " + strerror(errno));
+}

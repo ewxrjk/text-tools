@@ -43,7 +43,7 @@ public:
    *
    * The default implementation does nothing.
    */
-  void begin();
+  virtual void begin();
 
   /** @brief Enable or disable bold
    * @param state @c true to turn bold on and @c false to turn it off
@@ -79,7 +79,7 @@ public:
    * The default implementation disables bold and underline, if they
    * are enabled.
    */
-  void end();
+  virtual void end();
 
   /** @brief Called at the end of all files
    *
@@ -87,7 +87,7 @@ public:
    *
    * The default implementation does nothing.
    */
-  void finished();
+  virtual void finished();
 
 private:
   bool boldState, underlineState;
