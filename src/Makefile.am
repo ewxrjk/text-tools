@@ -47,3 +47,8 @@ install-exec-hook:
 uninstall-local:
 	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
 	rm -f $(DESTDIR)$(bindir)/texttopng$(EXEEXT)
+
+clean-local:
+	rm -f *.gcno
+	rm -f *.gcda
+	rm -f *.gcov

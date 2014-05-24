@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011 Richard Kettlewell
+# Copyright (C) 2011, 2014 Richard Kettlewell
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,5 +39,12 @@ AC_SUBST([CAIROMM_CFLAGS],[$rjk_cv_cairomm_cflags])
 AC_SUBST([CAIROMM_LIBS],[$rjk_cv_cairomm_libs])
 if test "x$GXX" = xyes; then
   CXX="$CXX -Wall -W -Werror -Wpointer-arith -Wwrite-strings"
+  cxxcoverage="-fprofile-arcs -ftest-coverage"
+fi
+AC_ARG_ENABLE([coverage],[AS_HELP_STRING([--enable-coverage],
+                                         [compile with coverage information])])
+if test "$enable_coverage" = yes; then
+  CXX="${CXX} ${cxxcoverage}"
+  LIBS="${LIBS} -lgcov"
 fi
 AC_OUTPUT([Makefile src/Makefile doc/Makefile])
