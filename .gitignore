@@ -18,6 +18,8 @@ Makefile.in
 /src/texttopng
 /src/texttops
 /src/t-n2w
+/src/t-s2d
+/src/t-s2i
 /src/*.log
 /src/*.trs
 /debian/files

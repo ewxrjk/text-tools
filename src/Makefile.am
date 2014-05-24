@@ -18,8 +18,8 @@
 AM_CXXFLAGS=${CAIROMM_CFLAGS}
 
 bin_PROGRAMS=texttohtml texttops
-noinst_PROGRAMS=t-n2w
-TESTS=t-n2w
+noinst_PROGRAMS=t-n2w t-s2d t-s2i
+TESTS=t-n2w t-s2d t-s2i
 
 texttohtml_SOURCES=File.cc HtmlOutput.cc narrowToWide.cc Textfile.cc	\
 TextfileProcessor.cc texttohtml.cc Characters.hh File.hh HtmlOutput.hh	\
@@ -31,6 +31,8 @@ Optional.hh
 texttops_LDADD=${CAIROMM_LIBS}
 
 t_n2w_SOURCES=narrowToWide.cc t-n2w.cc
+t_s2d_SOURCES=stringToDouble.cc t-s2d.cc
+t_s2i_SOURCES=stringToInt.cc t-s2i.cc
 
 install-exec-hook:
 	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
