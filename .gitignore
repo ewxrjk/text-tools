@@ -21,6 +21,7 @@ Makefile.in
 /src/t-s2d
 /src/t-s2i
 /src/t-w2u
+/src/t-file
 /src/*.log
 /src/*.trs
 /debian/files
