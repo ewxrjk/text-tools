@@ -24,6 +24,8 @@ AC_CONFIG_SRCDIR([src/Textfile.hh])
 AC_CONFIG_HEADER([config.h])
 AC_PROG_CXX
 AC_LANG([C++])
+AC_CHECK_HEADERS([langinfo.h])
+AC_CHECK_FUNCS([nl_langinfo])
 AC_CACHE_CHECK([for Pango/Cairomm CFLAGS],[rjk_cv_cairomm_cflags],[
   rjk_cv_cairomm_cflags=`pkg-config --silence-errors --cflags cairomm-1.0 pangomm-1.4`
 ])

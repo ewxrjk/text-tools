@@ -17,6 +17,9 @@ Makefile.in
 /src/texttohtml
 /src/texttopng
 /src/texttops
+/src/t-n2w
+/src/*.log
+/src/*.trs
 /debian/files
 /debian/rjk-text-tools*
 /doc/texttops.1

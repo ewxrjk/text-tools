@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011 Richard Kettlewell
+# Copyright (C) 2011, 2014 Richard Kettlewell
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,6 +18,9 @@
 AM_CXXFLAGS=${CAIROMM_CFLAGS}
 
 bin_PROGRAMS=texttohtml texttops
+noinst_PROGRAMS=t-n2w
+TESTS=t-n2w
+
 texttohtml_SOURCES=File.cc HtmlOutput.cc narrowToWide.cc Textfile.cc	\
 TextfileProcessor.cc texttohtml.cc Characters.hh File.hh HtmlOutput.hh	\
 Textfile.hh Utils.hh stringToInt.cc Optional.hh
@@ -26,6 +29,8 @@ TextfileProcessor.cc texttops.cc Characters.hh File.hh CairoOutput.hh	\
 Textfile.hh Utils.hh wideToUtf8.cc stringToInt.cc stringToDouble.cc	\
 Optional.hh
 texttops_LDADD=${CAIROMM_LIBS}
+
+t_n2w_SOURCES=narrowToWide.cc t-n2w.cc
 
 install-exec-hook:
 	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)
