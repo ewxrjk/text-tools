@@ -19,6 +19,7 @@
 #include <cstdio>
 #include <clocale>
 #include <iostream>
+#include <stdexcept>
 #if HAVE_LANGINFO_H
 # include <langinfo.h>
 #endif
@@ -43,6 +44,16 @@ int main(void) {
   if(codeset == "UTF-8") {
     w = narrowToWide("unicode: \xC2\xA3");
     assert(w == L"unicode: \u00a3");
+    try {
+      narrowToWide("bad unicode: \xC2");
+      assert(!"unexpectedly succeeded");
+    } catch(std::runtime_error &e) {
+    }
+    try {
+      narrowToWide("bad unicode: \xC2whatever");
+      assert(!"unexpectedly succeeded");
+    } catch(std::runtime_error &e) {
+    }
   } else if(codeset == "ISO-8859-1") {
     w = narrowToWide("latin-1: \xA3");
     assert(w == L"latin-1: \u00a3");
