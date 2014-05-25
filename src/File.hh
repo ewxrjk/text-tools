@@ -123,6 +123,9 @@ public:
    */
   void putw(int wc);
 
+  /** @brief Flush output */
+  void flush();
+
 private:
   FILE *fp;
   std::string path;

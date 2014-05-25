@@ -62,7 +62,64 @@ int main(void) {
   f.printf("%s\n", "test line");
   f.printf("%s", pound.c_str());
   f.put('\n');
+
+  try {
+    f.open("whatever", "r");
+    assert(!"unexpectedly succeeded");
+  } catch(std::logic_error &e) {
+    assert(e.what() == std::string("File::open but already open"));
+  }
+
   f.close();
+
+  try {
+    f.printf("xxx");
+    assert(!"unexpectedly succeeded");
+  } catch(std::logic_error &e) {
+    assert(e.what() == std::string("File::printf when closed"));
+  }
+
+  try {
+    f.put('!');
+    assert(!"unexpectedly succeeded");
+  } catch(std::logic_error &e) {
+    assert(e.what() == std::string("File::put when closed"));
+  }
+
+  try {
+    f.putw(L'!');
+    assert(!"unexpectedly succeeded");
+  } catch(std::logic_error &e) {
+    assert(e.what() == std::string("File::putw when closed"));
+  }
+
+  try {
+    f.flush();
+    assert(!"unexpectedly succeeded");
+  } catch(std::logic_error &e) {
+    assert(e.what() == std::string("File::flush when closed"));
+  }
+
+  try {
+    f.close();
+    assert(!"unexpectedly succeeded");
+  } catch(std::logic_error &e) {
+    assert(e.what() == std::string("File::close when closed"));
+  }
+
+  try {
+    f.getw();
+    assert(!"unexpectedly succeeded");
+  } catch(std::logic_error &e) {
+    assert(e.what() == std::string("File::getw when closed"));
+  }
+
+  try {
+    f.get();
+    assert(!"unexpectedly succeeded");
+  } catch(std::logic_error &e) {
+    assert(e.what() == std::string("File::get when closed"));
+  }
 
   /* Read it back in byte by byte */
   {

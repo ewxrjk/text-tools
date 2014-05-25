@@ -18,8 +18,8 @@
 AM_CXXFLAGS=${CAIROMM_CFLAGS}
 
 bin_PROGRAMS=texttohtml texttops
-noinst_PROGRAMS=t-n2w t-s2d t-s2i t-w2u t-file t-textfile
-TESTS=t-n2w t-s2d t-s2i t-w2u t-file t-textfile
+noinst_PROGRAMS=t-n2w t-s2d t-s2i t-w2u t-file t-file-pipe t-textfile
+TESTS=t-n2w t-s2d t-s2i t-w2u t-file t-file-pipe t-textfile
 
 texttohtml_SOURCES=File.cc HtmlOutput.cc narrowToWide.cc Textfile.cc	\
 TextfileProcessor.cc texttohtml.cc Characters.hh File.hh HtmlOutput.hh	\
@@ -35,6 +35,7 @@ t_s2d_SOURCES=stringToDouble.cc t-s2d.cc
 t_s2i_SOURCES=stringToInt.cc t-s2i.cc
 t_w2u_SOURCES=wideToUtf8.cc t-w2u.cc
 t_file_SOURCES=File.cc t-file.cc
+t_file_pipe_SOURCES=File.cc t-file-pipe.cc
 t_textfile_SOURCES=Textfile.cc TextfileProcessor.cc File.cc t-textfile.cc
 
 install-exec-hook:

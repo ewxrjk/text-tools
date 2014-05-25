@@ -25,6 +25,7 @@ Makefile.in
 /src/t-s2i
 /src/t-w2u
 /src/t-file
+/src/t-file-pipe
 /src/t-textfile
 /src/*.log
 /src/*.trs

@@ -26,7 +26,8 @@ File::~File() {
 }
 
 void File::open(const std::string &path_, const std::string &mode_) {
-  if(fp) throw std::logic_error("File::open but already open");
+  if(fp)
+    throw std::logic_error("File::open but already open");
   if(path_ == "-") {
     if(mode_.at(0) == 'r') {
       fp = stdin;
@@ -44,7 +45,8 @@ void File::open(const std::string &path_, const std::string &mode_) {
 }
 
 int File::get() {
-  if(!fp) throw std::logic_error("File::get when closed");
+  if(!fp)
+    throw std::logic_error("File::get when closed");
   int c = getc(fp);
   if(c == EOF && ferror(fp))
     throw std::runtime_error("reading " + path + ": " + strerror(errno));
@@ -52,7 +54,8 @@ int File::get() {
 }
 
 wint_t File::getw() {
-  if(!fp) throw std::logic_error("File::getw when closed");
+  if(!fp)
+    throw std::logic_error("File::getw when closed");
   wint_t c = getwc(fp);
   if(c == WEOF && ferror(fp))
     throw std::runtime_error("reading " + path + ": " + strerror(errno));
@@ -60,7 +63,8 @@ wint_t File::getw() {
 }
 
 void File::close() {
-  if(!fp) throw std::logic_error("File::close when closed");
+  if(!fp)
+    throw std::logic_error("File::close when closed");
   FILE *fp_ = fp;
   fp = NULL;
   if(fclose(fp_) < 0)
@@ -68,7 +72,8 @@ void File::close() {
 }
 
 int File::printf(const char *fmt, ...) {
-  if(!fp) throw std::logic_error("File::printf when closed");
+  if(!fp)
+    throw std::logic_error("File::printf when closed");
   va_list ap;
   va_start(ap, fmt);
   int rc = vfprintf(fp, fmt, ap);
@@ -79,13 +84,22 @@ int File::printf(const char *fmt, ...) {
 }
 
 void File::put(int c) {
-  if(!fp) throw std::logic_error("File::put when closed");
+  if(!fp)
+    throw std::logic_error("File::put when closed");
   if(putc(c, fp) < 0)
     throw std::runtime_error("writing " + path + ": " + strerror(errno));
 }
 
 void File::putw(int wc) {
-  if(!fp) throw std::logic_error("File::putw when closed");
+  if(!fp)
+    throw std::logic_error("File::putw when closed");
   if(putwc(wc, fp) == WEOF)
     throw std::runtime_error("writing " + path + ": " + strerror(errno));
+}
+
+void File::flush() {
+  if(!fp)
+    throw std::logic_error("File::flush when closed");
+  if(fflush(fp) < 0)
+    throw std::runtime_error("flushing " + path + ": " + strerror(errno));
 }
