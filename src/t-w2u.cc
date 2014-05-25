@@ -27,7 +27,13 @@ int main(void) {
   s = wideToUtf8(L"whatever");
   assert(s == "whatever");
 
-  s = wideToUtf8(L"unicode: \u0080");
+  /* 6.4.3: "A universal character name shall not specify a character whose
+   * short identifier is less than 00A0 other than 0024 ($), 0040 (@), or 0060
+   * (‘), nor one in the range D800 through DFFF inclusive."
+   */
+  static const wchar_t c99_is_moronic[] =
+    { L'u', L'n', L'i', L'c', L'o', L'd', L'e', L':', L' ', 0x0080, 0 };
+  s = wideToUtf8(c99_is_moronic);
   assert(s == "unicode: \xC2\x80");
 
   s = wideToUtf8(L"unicode: \u07ff");
