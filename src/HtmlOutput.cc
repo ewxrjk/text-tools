@@ -1,5 +1,5 @@
 // 
-// Copyright (C) 2011 Richard Kettlewell
+// Copyright (C) 2011, 2014 Richard Kettlewell
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,17 +37,25 @@ void HtmlOutput::bold(bool state) {
 }
 
 void HtmlOutput::underline(bool state) {
+  const char *open, *close;
+  if(underlineAsItalic) {
+    open = "<i>";
+    close = "</i>";
+  } else {
+    open = "<u>";
+    close = "</u>";
+  }
   if(state) {
     underline_index = index;
-    output.printf(underlineAsItalic ? "<i>" : "<u>");
+    output.printf(open);
   } else {
     if(bold_index > underline_index) {
       bold(false);
-      output.printf(underlineAsItalic ? "</i>" : "</u>");
+      output.printf(close);
       underline_index = 0;
       bold(true);
     } else {
-      output.printf(underlineAsItalic ? "</i>" : "</u>");
+      output.printf(close);
       underline_index = 0;
     }
   }
