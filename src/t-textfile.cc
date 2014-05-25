@@ -294,7 +294,6 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    std::wcout << s << std::endl;
     assert(s == L"begin\n"
            "text .\n"
            "text \b\n"
