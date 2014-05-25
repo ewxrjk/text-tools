@@ -1,28 +1,32 @@
 text-tools
 ==========
 
-This is a small collection of text processing tools.
+This is a small collection of text processing tools, capable of
+converting plain text to HTML, Postscript, PDF and PNG format.
+The use of overprinting to represent bold and underline, for instance
+as traditionally found in man(1) output, is recognized.
 
 Installation
 ------------
 
-  ./autogen.sh   # only if configure doesn't exist yet
-  ./configure
-  make
-  sudo make install
+    ./autogen.sh   # only if configure doesn't exist yet
+    ./configure
+    make
+    sudo make install
 
 The following commands will be installed:
-  texttohtml
-  texttopng
-  texttops
-  texttopdf
+
+    texttohtml
+    texttopng
+    texttops
+    texttopdf
 
 They all have man pages.
 
 Copyright
 ---------
 
-Copyright (C) 2011, 2014 Richard Kettlewell
+Copyright © 2011, 2014 Richard Kettlewell
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

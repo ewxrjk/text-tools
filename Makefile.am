@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011 Richard Kettlewell
+# Copyright (C) 2011, 2014 Richard Kettlewell
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,5 +18,5 @@
 SUBDIRS=src doc
 
 EXTRA_DIST=debian/rules debian/control debian/changelog	\
-debian/copyright scripts/dist
+debian/copyright scripts/dist README.md
 
