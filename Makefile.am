@@ -18,5 +18,5 @@
 SUBDIRS=src doc
 
 EXTRA_DIST=debian/rules debian/control debian/changelog	\
-debian/copyright scripts/dist README.md
+debian/copyright scripts/dist README.md CHANGES.md
 
