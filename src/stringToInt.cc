@@ -33,6 +33,6 @@ int stringToInt(const std::string &s) {
   if(e == sc || *e)
     throw std::runtime_error("converting '" + s + "': invalid numeric syntax");
   if(n < INT_MIN || n > INT_MAX)
-    throw std::runtime_error("converting '" + s + "': out of range");
+    throw std::runtime_error("converting '" + s + "': " + strerror(ERANGE));
   return (int)n;
 }
