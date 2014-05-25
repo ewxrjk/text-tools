@@ -19,7 +19,8 @@ AM_CXXFLAGS=${CAIROMM_CFLAGS}
 
 bin_PROGRAMS=texttohtml texttops
 noinst_PROGRAMS=t-n2w t-s2d t-s2i t-w2u t-file t-file-pipe t-textfile
-TESTS=t-n2w t-s2d t-s2i t-w2u t-file t-file-pipe t-textfile
+TESTS=t-n2w t-s2d t-s2i t-w2u t-file t-file-pipe t-textfile	\
+t-texttohtml t-texttohtml-args
 
 texttohtml_SOURCES=File.cc HtmlOutput.cc narrowToWide.cc Textfile.cc	\
 TextfileProcessor.cc texttohtml.cc Characters.hh File.hh HtmlOutput.hh	\
@@ -37,6 +38,17 @@ t_w2u_SOURCES=wideToUtf8.cc t-w2u.cc
 t_file_SOURCES=File.cc t-file.cc
 t_file_pipe_SOURCES=File.cc t-file-pipe.cc
 t_textfile_SOURCES=Textfile.cc TextfileProcessor.cc File.cc t-textfile.cc
+
+TEST_INPUTS=test-inputs/bold.txt test-inputs/bold-underline.txt		\
+test-inputs/empty.txt test-inputs/quoting.txt test-inputs/simple.txt	\
+test-inputs/tabs.txt test-inputs/underline.txt
+TEST_OUTPUTS=test-outputs/bold.html test-outputs/bold-italic.html	\
+test-outputs/bold-underline.html test-outputs/empty.html		\
+test-outputs/quoting.html test-outputs/simple.html			\
+test-outputs/simple-titled.html test-outputs/tabs-four.html		\
+test-outputs/tabs.html test-outputs/underline.html			\
+test-outputs/underline-italic.html
+EXTRA_DIST=t-texttohtml t-texttohtml-args ${TEST_INPUTS} ${TEST_OUTPUTS}
 
 install-exec-hook:
 	rm -f $(DESTDIR)$(bindir)/texttopdf$(EXEEXT)

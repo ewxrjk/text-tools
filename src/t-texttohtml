@@ -1,0 +1,41 @@
+#! /bin/sh
+set -e
+
+srcdir=${srcdir:-.}
+
+mkdir -p test-outputs
+
+for input in ${srcdir}/test-inputs/*.txt; do
+  stem=${input##*/}
+  stem=${stem%.txt}
+  ./texttohtml ${input} > test-outputs/got-${stem}.html
+  diff -u ${srcdir}/test-outputs/${stem}.html \
+                    test-outputs/got-${stem}.html
+  if [ -e ${srcdir}/test-outputs/${stem}-italic.html ]; then
+    ./texttohtml -i ${input} > test-outputs/got-${stem}.html
+    diff -u ${srcdir}/test-outputs/${stem}-italic.html \
+                      test-outputs/got-${stem}.html
+    ./texttohtml --italic ${input} > test-outputs/got-${stem}.html
+    diff -u ${srcdir}/test-outputs/${stem}-italic.html \
+                      test-outputs/got-${stem}.html
+  fi
+  if [ -e ${srcdir}/test-outputs/${stem}-four.html ]; then
+    ./texttohtml -t 4 < ${input} > test-outputs/got-${stem}.html
+    diff -u ${srcdir}/test-outputs/${stem}-four.html \
+                      test-outputs/got-${stem}.html
+    ./texttohtml --tab 4 < ${input} > test-outputs/got-${stem}.html
+    diff -u ${srcdir}/test-outputs/${stem}-four.html \
+                      test-outputs/got-${stem}.html
+  fi
+  if [ -e ${srcdir}/test-outputs/${stem}-titled.html ]; then
+    ./texttohtml -T "Title & String" ${input} > test-outputs/got-${stem}.html
+    diff -u ${srcdir}/test-outputs/${stem}-titled.html \
+                      test-outputs/got-${stem}.html
+    ./texttohtml --title "Title & String" ${input} > test-outputs/got-${stem}.html
+    diff -u ${srcdir}/test-outputs/${stem}-titled.html \
+                      test-outputs/got-${stem}.html
+  fi
+  rm -f test-outputs/got-${stem}.html
+done
+
+rmdir test-outputs 2>/dev/null || true
