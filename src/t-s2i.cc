@@ -59,5 +59,11 @@ int main(void) {
     assert(e.what() == std::string("converting '4294967296': ") + strerror(ERANGE));
   }
 
+  try {
+    stringToInt("9223372036854775808"); assert(!"unexpectedly succeeded");
+  } catch(std::runtime_error &e) {
+    assert(e.what() == std::string("converting '9223372036854775808': ") + strerror(ERANGE));
+  }
+
   return 0;
 }
