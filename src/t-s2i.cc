@@ -32,25 +32,25 @@ int main(void) {
   try {
     stringToInt(""); assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
-    assert(std::string(e.what()) == "converting '': invalid numeric syntax");
+    assert(e.what() == "converting '': " + std::string(strerror(EINVAL)));
   }
 
   try {
     stringToInt(" "); assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
-    assert(std::string(e.what()) == "converting ' ': invalid numeric syntax");
+    assert(e.what() == "converting ' ': " + std::string(strerror(EINVAL)));
   }
 
   try {
     stringToInt("0z"); assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
-    assert(std::string(e.what()) == "converting '0z': invalid numeric syntax");
+    assert(e.what() == "converting '0z': " + std::string(strerror(EINVAL)));
   }
 
   try {
     stringToInt("0x100"); assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
-    assert(std::string(e.what()) == "converting '0x100': invalid numeric syntax");
+    assert(e.what() == "converting '0x100': " + std::string(strerror(EINVAL)));
   }
 
   try {
