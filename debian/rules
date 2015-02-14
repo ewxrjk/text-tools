@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# Copyright (C) 2011 Richard Kettlewell
+# Copyright (C) 2011, 2015 Richard Kettlewell
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -76,8 +76,8 @@ pkg-rjk-text-tools: build
 	$(MAKE) installdirs install DESTDIR=$(shell pwd)/debian/rjk-text-tools
 	strip --remove-section=.comment debian/rjk-text-tools/usr/bin/texttops
 	strip --remove-section=.comment debian/rjk-text-tools/usr/bin/texttohtml
-	gzip -9f debian/rjk-text-tools/usr/share/doc/rjk-text-tools/changelog*
-	gzip -9f debian/rjk-text-tools/usr/share/man/man*/*
+	gzip -9nf debian/rjk-text-tools/usr/share/doc/rjk-text-tools/changelog*
+	gzip -9nf debian/rjk-text-tools/usr/share/man/man*/*
 	dpkg-shlibdeps -Tdebian/substvars.rjk-text-tools \
 		debian/rjk-text-tools/usr/bin/*
 	cd debian/rjk-text-tools && \
