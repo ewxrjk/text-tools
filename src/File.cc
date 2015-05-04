@@ -1,5 +1,5 @@
 // 
-// Copyright (C) 2011 Richard Kettlewell
+// Copyright (C) 2011, 2015 Richard Kettlewell
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,6 +40,8 @@ void File::open(const std::string &path_, const std::string &mode_) {
     fp = fopen(path_.c_str(), mode_.c_str());
     if(!fp)
       throw std::runtime_error("opening " + path_ + ": " + strerror(errno));
+    if(fwide(fp, 0) != 0)
+      throw std::runtime_error("your C library is broken");
     path = path_;
   }
 }
