@@ -41,14 +41,6 @@ if test "x$GXX" = xyes; then
   CXX="$CXX -Wall -W -Werror -Wpointer-arith -Wwrite-strings"
   cxxcoverage="-fprofile-arcs -ftest-coverage"
 fi
-# G++ 5.x and Clang now both default to the C++ABI (even if you ask
-# for -std=c++03), but the libraries haven't caught up, so by default
-# ask for the old ABI.
-AC_ARG_WITH([cxx11],[AS_HELP_STRING([--with-cxx11],[enable C++11 ABI])],
-            [],[with_cxx11=no])
-if test "$with_cxx11" = no; then
-  CPPFLAGS="${CPPFLAGS} -D_GLIBCXX_USE_CXX11_ABI=0"
-fi
 AC_ARG_ENABLE([coverage],[AS_HELP_STRING([--enable-coverage],
                                          [compile with coverage information])])
 if test "$enable_coverage" = yes; then
