@@ -143,7 +143,7 @@ int main(void) {
     f.close();
   }
 
-  remove("test.tmp");
+  assert(remove("test.tmp") == 0);
 
   return 0;
 }

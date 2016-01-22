@@ -300,7 +300,7 @@ int main(void) {
            "end\n");
   }
 
-  remove("test.input");
+  assert(remove("test.input") == 0);
 
   return 0;
 }
