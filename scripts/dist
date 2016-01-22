@@ -49,6 +49,6 @@ rm -rf products ${dir}
 mkdir products
 cp ${archive} products/.
 
-build i386 wheezy32
+build i386 jessie32
 build amd64
 ls -l products
