@@ -6,8 +6,10 @@
 *.gcov
 *.o
 *.tar.gz
+*.tgz
 Makefile
 Makefile.in
+/.coverity
 /INSTALL
 /aclocal.m4
 /autom4te.cache
