@@ -41,7 +41,7 @@ int main(void) {
     int ch;
     File in("-", "r");
     File out("-", "w");
-    
+
     out.put('!');
     out.flush();
     ch = in.get();
