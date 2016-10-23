@@ -39,6 +39,7 @@ AC_SUBST([CAIROMM_CFLAGS],[$rjk_cv_cairomm_cflags])
 AC_SUBST([CAIROMM_LIBS],[$rjk_cv_cairomm_libs])
 if test "x$GXX" = xyes; then
   CXX="$CXX -Wall -W -Werror -Wpointer-arith -Wwrite-strings"
+  CXX="$CXX -std=c++11"
   cxxcoverage="-fprofile-arcs -ftest-coverage"
 fi
 AC_ARG_ENABLE([coverage],[AS_HELP_STRING([--enable-coverage],
