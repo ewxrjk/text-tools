@@ -59,6 +59,14 @@ fit 80 columns for PNG output.
 Set the height of the output image.
 The default is 841 points for Postscript and PDF output, and enough to
 fit 66 rows for PNG output.
+.IP
+If either of the \fB\-\-width and \fB\-\-height options are used, both
+must be used.
+.TP
+.B \-S\fR, \fB\-\-size \fiNAME
+Set the output image to a named size.
+An, Bn and Cn series paper sizes are supported.
+This option cannot be used with PNG output.
 .TP
 .B \-b\fR, \fB\-\-border \fIPOINTS
 Set the border size.

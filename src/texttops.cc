@@ -24,6 +24,11 @@
 #include <getopt.h>
 #include <pangomm/init.h>
 
+enum {
+  PORTRAIT = UCHAR_MAX + 1,
+  LANDSCAPE
+};
+
 static const struct option options[] = {
   { "tab", required_argument, NULL, 't' },
   { "width", required_argument, NULL, 'w' },
@@ -37,6 +42,9 @@ static const struct option options[] = {
   { "italic", no_argument, NULL, 'i' },
   { "type", required_argument, NULL, 'y' },
   { "output", required_argument, NULL, 'o' },
+  { "size", required_argument, NULL, 'S' },
+  { "portrait", no_argument, NULL, PORTRAIT },
+  { "landscape", no_argument, NULL, LANDSCAPE },
   { "help", no_argument, NULL, 'h' },
   { "version", no_argument, NULL, 'V' },
   { NULL, 0, NULL, 0 },
@@ -55,6 +63,9 @@ static void help() {
          "Layout options:\n"
          "  -w, --width POINTS          Set output file width\n"
          "  -H, --height POINTS         Set output file height\n"
+         "  -S, --size NAME             Named paper size\n"
+         "  --portrait                  Use portrait orientation\n"
+         "  --landscape                 Use landscape orientation\n"
          "  -b, --border POINTS         Set border\n"
          "  -T, --title TITLE           Top-of-page title string\n"
          "  -p, --page-numbering        Enable page numbering\n"
@@ -105,6 +116,8 @@ int main(int argc, char **argv) {
     Optional<double> width, height;
     Optional<double> fontsize;
     Optional<double> border;
+    Optional<std::string> size;
+    int orientation = PORTRAIT;
     std::string type;
     if(strstr(argv[0], "pdf")) type = "pdf";
     else if(strstr(argv[0], "png")) type = "png";
@@ -118,7 +131,8 @@ int main(int argc, char **argv) {
                                + strerror(errno));
     Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:io:", options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:io:S:",
+                             options, NULL)) >= 0) {
       switch(opt) {
       case 'y': type = optarg; break;
       case 't': tabstop = stringToInt(optarg); break;
@@ -132,13 +146,23 @@ int main(int argc, char **argv) {
       case 'T': title = optarg; break;
       case 'i': italic = true; break;
       case 'o': output = optarg; break;
+      case PORTRAIT: case LANDSCAPE: orientation = opt; break;
+      case 'S': size = optarg; break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
       default: return 1;
       }
     }
+    // Rules about command line options
+    if(size.exists() && (width.exists() || height.exists()))
+      throw std::runtime_error("--size cannot be used with --width or --height");
+    if(size.exists() && type == "png")
+      throw std::runtime_error("--size cannot be used with --png");
+    if(width.exists() != height.exists())
+      throw std::runtime_error("--width and --height must be both or neither present");
     if(tabstop <= 0)
       throw std::runtime_error("invalid top stop size");
+    // Defaults
     if(!fontsize.exists()) fontsize = 8.0;
     if(type == "png") {
       if(!output) output = "output";
@@ -153,17 +177,42 @@ int main(int argc, char **argv) {
     Pango::FontDescription fontdesc;
     fontdesc.set_family(font);
     fontdesc.set_size(PANGO_SCALE * fontsize);
-    if(!width.exists() || !height.exists()) {
+    if(!width.exists()) {
       if(type == "png") {
         double mw, mh;
         CairoOutput::getEmSize(Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
                                                            1, 1),
                                fontdesc, mw, mh);
-        if(!width.exists()) width = 80 * mw + 2 * border;
-        if(!height.exists()) height = 66 * mh + 2 * border;
+        width = 80 * mw + 2 * border;
+        height = 66 * mh + 2 * border;
       } else {
-        if(!width.exists()) width = 595;
-        if(!height.exists()) height = 841;
+        if(!size.exists())
+          size = "a4";
+        double n, h, w;
+        const std::string &s = size;
+        switch(s.at(0)) {
+        case 'A': case 'a':
+          n = stringToInt(s.substr(1,std::string::npos));
+          h = floor(1000/(exp2((2*n-1)/4))+0.2);
+          w = floor(h / sqrt(2));
+          break;
+        case 'B': case 'b':
+          n = stringToInt(s.substr(1,std::string::npos));
+          h = floor(1000/(exp2((n-1)/4))+0.2);
+          w = floor(h / sqrt(2));
+          break;
+        case 'C': case 'c':
+          n = stringToInt(s.substr(1,std::string::npos));
+          h = floor(1000/(exp2((4*n-3)/8))+0.2);
+          w = floor(h / sqrt(2));
+          break;
+        default:
+          throw std::runtime_error("unrecognized paper size");
+        }
+        width = w * 72 / 25.4;
+        height = h * 72 / 25.4;
+        if(orientation == LANDSCAPE)
+          std::swap(width, height);
       }
     }
     if(width <= 0 || height <= 0)
