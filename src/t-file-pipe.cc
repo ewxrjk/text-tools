@@ -64,7 +64,7 @@ int main(void) {
     out.flush();
     assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
-    assert(e.what() == "flushing stdout: " + std::string(strsignal(SIGPIPE)));
+    assert(e.what() == "flushing stdout: " + std::string(strerror(EPIPE)));
   }
 
   return 0;
