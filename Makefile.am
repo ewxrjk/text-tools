@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011, 2014, 2016 Richard Kettlewell
+# Copyright (C) 2011, 2014, 2016-17 Richard Kettlewell
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,4 +19,7 @@ SUBDIRS=src doc
 
 EXTRA_DIST=debian/rules debian/control debian/changelog	\
 debian/copyright README.md CHANGES.md
-dist_noinst_SCRIPTS=scripts/dist scripts/coverity
+dist_noinst_SCRIPTS=scripts/dist scripts/coverity			\
+scripts/travis/linux/clang/configure					\
+scripts/travis/linux/gcc/configure scripts/travis/osx/clang/configure	\
+scripts/travis/osx/clang/install

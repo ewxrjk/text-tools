@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011, 2014, 2015 Richard Kettlewell
+# Copyright (C) 2011, 2014, 2015, 2017 Richard Kettlewell
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,4 +48,5 @@ if test "$enable_coverage" = yes; then
   CXXFLAGS="${CXXFLAGS} ${cxxcoverage}"
   LIBS="${LIBS} -lgcov"
 fi
+CXXFLAGS="${CXXFLAGS} ${CXXFLAGS_EXTRA}"
 AC_OUTPUT([Makefile src/Makefile doc/Makefile])
