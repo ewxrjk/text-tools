@@ -1,6 +1,8 @@
 text-tools
 ==========
 
+[![Build Status](https://travis-ci.org/ewxrjk/text-tools.svg?branch=master)](https://travis-ci.org/ewxrjk/text-tools)
+
 This is a small collection of text processing tools, capable of
 converting plain text to HTML, Postscript, PDF and PNG format.
 The use of overprinting to represent bold and underline, for instance
