@@ -1,7 +1,7 @@
 Source: rjk-text-tools
 Maintainer: Richard Kettlewell <rjk@terraraq.org.uk>
 Section: text
-Priority: extra
+Priority: optional
 Standards-Version: 3.9.1.0
 Build-Depends: libpangomm-1.4-dev,libcairomm-1.0-dev,pkg-config
 
