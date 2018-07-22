@@ -49,5 +49,18 @@ if test "$enable_coverage" = yes; then
   CXXFLAGS="${CXXFLAGS} ${cxxcoverage}"
   LIBS="${LIBS} -lgcov"
 fi
+
+# sigc++ is broken, but the compiler can be persuaded to ignore it.
+# https://bugzilla.redhat.com/show_bug.cgi?id=1576299
+AC_CACHE_CHECK([whether sigc++ is broken],
+  [rjk_cv_sigcpp_broken],
+  [AC_COMPILE_IFELSE([AC_LANG_SOURCE([[#include <sigc++/sigc++.h>]])],
+     [rjk_cv_sigcpp_broken=no],
+     [rjk_cv_sigcpp_broken=yes])
+])
+if test $rjk_cv_sigcpp_broken = yes; then
+  CXXFLAGS="${CXXFLAGS} -Wno-cast-function-type"
+fi
+
 CXXFLAGS="${CXXFLAGS} ${CXXFLAGS_EXTRA}"
 AC_OUTPUT([Makefile src/Makefile doc/Makefile])
