@@ -52,6 +52,7 @@ fi
 
 # sigc++ is broken, but the compiler can be persuaded to ignore it.
 # https://bugzilla.redhat.com/show_bug.cgi?id=1576299
+# Annoyingly, Clang and GCC use different options for this.
 AC_CACHE_CHECK([whether sigc++ is broken],
   [rjk_cv_sigcpp_broken],
   [AC_COMPILE_IFELSE([AC_LANG_SOURCE([[#include <sigc++/sigc++.h>]])],
@@ -59,7 +60,12 @@ AC_CACHE_CHECK([whether sigc++ is broken],
      [rjk_cv_sigcpp_broken=yes])
 ])
 if test $rjk_cv_sigcpp_broken = yes; then
-  CXXFLAGS="${CXXFLAGS} -Wno-cast-function-type"
+  # https://stackoverflow.com/questions/30752966/how-to-set-compiler-specific-flags-with-autotools
+  if `$CXX -v 2>&1 | grep 'gcc version' >/dev/null 2>&1`; then
+    CXXFLAGS="${CXXFLAGS} -Wno-cast-function-type"
+  else
+    CXXFLAGS="${CXXFLAGS} -Wno-bad-function-cast"
+  fi
 fi
 
 CXXFLAGS="${CXXFLAGS} ${CXXFLAGS_EXTRA}"
