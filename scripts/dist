@@ -33,13 +33,12 @@ build() {
     cd ${dir}
     $prefix fakeroot debian/rules build binary
     cd ..
-    mv ${deb_prefix}${package}_${version}_${arch}.deb products/.
+    mv ${package}_${version}_${arch}.deb products/.
     rm -rf ${dir}
 }
 
 make distcheck
 
-deb_prefix=rjk-
 package=$(awk '/^PACKAGE_NAME =/ { print $3 }' < Makefile)
 version=$(awk '/^PACKAGE_VERSION =/ { print $3 }' < Makefile)
 dir=${package}-${version}
@@ -49,6 +48,6 @@ rm -rf products ${dir}
 mkdir products
 cp ${archive} products/.
 
-build i386 jessie32
+build i386 stretch32
 build amd64
 ls -l products
