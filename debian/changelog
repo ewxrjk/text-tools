@@ -1,3 +1,10 @@
+rjk-text-tools (1.1) stable; urgency=medium
+
+  * Priority: extra
+  * Build fixes latest compilers.
+
+ -- Richard Kettlewell <rjk@greenend.org.uk>  Sun, 19 Aug 2018 10:36:38 +0100
+
 rjk-text-tools (1) stable; urgency=medium
 
   * Options to control paper size and orientation.
