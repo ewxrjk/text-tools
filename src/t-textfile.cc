@@ -61,7 +61,6 @@ public:
     TextfileProcessor::finished();
     m_os << "finished\n";
   }
-
 };
 
 static void write(const std::string &path,
