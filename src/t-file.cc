@@ -127,7 +127,7 @@ int main(void) {
     std::string t;
     int ch;
     while((ch = f.get()) != EOF)
-      t += ch;
+      t += (unsigned char)ch;
     assert(t == "test line\n" + pound + "\n");
     f.close();
   }
