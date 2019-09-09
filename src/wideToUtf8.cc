@@ -25,17 +25,17 @@ std::string wideToUtf8(const std::wstring &s) {
     if(c <= 0x7F)
       u += c;
     else if(c <= 0x07ff) {
-      u += (unsigned char)(0xC0 + (c >> 6));
-      u += (unsigned char)(0x80 + (c & 0x3F));
+      u += (char)(0xC0 + (c >> 6));
+      u += (char)(0x80 + (c & 0x3F));
     } else if(c <= 0xffff) {
-      u += (unsigned char)(0xE0 + (c >> 12));
-      u += (unsigned char)(0x80 + ((c >> 6) & 0x3F));
-      u += (unsigned char)(0x80 + (c & 0x3F));
+      u += (char)(0xE0 + (c >> 12));
+      u += (char)(0x80 + ((c >> 6) & 0x3F));
+      u += (char)(0x80 + (c & 0x3F));
     } else {
-      u += (unsigned char)(0xF0 + (c >> 18));
-      u += (unsigned char)(0x80 + ((c >> 12) & 0x3F));
-      u += (unsigned char)(0x80 + ((c >> 6) & 0x3F));
-      u += (unsigned char)(0x80 + (c & 0x3F));
+      u += (char)(0xF0 + (c >> 18));
+      u += (char)(0x80 + ((c >> 12) & 0x3F));
+      u += (char)(0x80 + ((c >> 6) & 0x3F));
+      u += (char)(0x80 + (c & 0x3F));
     }
   }
   return u;
