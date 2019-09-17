@@ -48,6 +48,5 @@ rm -rf products ${dir}
 mkdir products
 cp ${archive} products/.
 
-build i386 stretch32
 build amd64
 ls -l products
