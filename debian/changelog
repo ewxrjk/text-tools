@@ -1,3 +1,9 @@
+rjk-text-tools (1.2) unstable; urgency=medium
+
+  * Rebuild for buster
+
+ -- Richard Kettlewell <rjk@terraraq.org.uk>  Tue, 17 Sep 2019 12:06:24 +0100
+
 rjk-text-tools (1.1) stable; urgency=medium
 
   * Priority: extra
