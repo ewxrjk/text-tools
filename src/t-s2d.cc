@@ -30,25 +30,29 @@ int main(void) {
   assert(stringToDouble("-1") == -1);
 
   try {
-    stringToDouble(""); assert(!"unexpectedly succeeded");
+    stringToDouble("");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
     assert(std::string(e.what()) == "converting '': invalid numeric syntax");
   }
 
   try {
-    stringToDouble(" "); assert(!"unexpectedly succeeded");
+    stringToDouble(" ");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
     assert(std::string(e.what()) == "converting ' ': invalid numeric syntax");
   }
 
   try {
-    stringToDouble("0x"); assert(!"unexpectedly succeeded");
+    stringToDouble("0x");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
     assert(std::string(e.what()) == "converting '0x': invalid numeric syntax");
   }
 
   try {
-    stringToDouble("1e309"); assert(!"unexpectedly succeeded");
+    stringToDouble("1e309");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
     assert(e.what() == std::string("converting '1e309': ") + strerror(ERANGE));
   }

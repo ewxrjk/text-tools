@@ -65,9 +65,7 @@ void HtmlOutput::underline(bool state) {
 void HtmlOutput::text(const std::wstring &s) {
   for(std::wstring::size_type n = 0; n < s.size(); ++n) {
     wchar_t c = s.at(n);
-    if((c >= SPACE && c <= TILDE
-        && c != LESS_THAN_SIGN
-        && c != AMPERSAND)
+    if((c >= SPACE && c <= TILDE && c != LESS_THAN_SIGN && c != AMPERSAND)
        || c == LINE_FEED)
       output.put((int)c);
     else

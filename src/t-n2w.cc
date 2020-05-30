@@ -21,7 +21,7 @@
 #include <iostream>
 #include <stdexcept>
 #if HAVE_LANGINFO_H
-# include <langinfo.h>
+#include <langinfo.h>
 #endif
 #include "Utils.hh"
 

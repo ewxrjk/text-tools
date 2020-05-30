@@ -24,61 +24,59 @@
 #include <getopt.h>
 #include <pangomm/init.h>
 
-enum {
-  PORTRAIT = UCHAR_MAX + 1,
-  LANDSCAPE
-};
+enum { PORTRAIT = UCHAR_MAX + 1, LANDSCAPE };
 
 static const struct option options[] = {
-  { "tab", required_argument, NULL, 't' },
-  { "width", required_argument, NULL, 'w' },
-  { "height", required_argument, NULL, 'H' },
-  { "font-size", required_argument, NULL, 'f' },
-  { "font", required_argument, NULL, 'F' },
-  { "list-fonts", no_argument, NULL, 'l' },
-  { "border", required_argument, NULL, 'b' },
-  { "page-numbering", no_argument, NULL, 'p' },
-  { "title", required_argument, NULL, 'T' },
-  { "italic", no_argument, NULL, 'i' },
-  { "type", required_argument, NULL, 'y' },
-  { "output", required_argument, NULL, 'o' },
-  { "size", required_argument, NULL, 'S' },
-  { "portrait", no_argument, NULL, PORTRAIT },
-  { "landscape", no_argument, NULL, LANDSCAPE },
-  { "help", no_argument, NULL, 'h' },
-  { "version", no_argument, NULL, 'V' },
-  { NULL, 0, NULL, 0 },
+    {"tab", required_argument, NULL, 't'},
+    {"width", required_argument, NULL, 'w'},
+    {"height", required_argument, NULL, 'H'},
+    {"font-size", required_argument, NULL, 'f'},
+    {"font", required_argument, NULL, 'F'},
+    {"list-fonts", no_argument, NULL, 'l'},
+    {"border", required_argument, NULL, 'b'},
+    {"page-numbering", no_argument, NULL, 'p'},
+    {"title", required_argument, NULL, 'T'},
+    {"italic", no_argument, NULL, 'i'},
+    {"type", required_argument, NULL, 'y'},
+    {"output", required_argument, NULL, 'o'},
+    {"size", required_argument, NULL, 'S'},
+    {"portrait", no_argument, NULL, PORTRAIT},
+    {"landscape", no_argument, NULL, LANDSCAPE},
+    {"help", no_argument, NULL, 'h'},
+    {"version", no_argument, NULL, 'V'},
+    {NULL, 0, NULL, 0},
 };
 
 static void help() {
-  printf("Usage:\n"
-         "  texttops [OPTIONS] [--] [INPUT...]\n"
-         "  texttops --list-fonts\n"
-         "\n"
-         "Text options:\n"
-         "  -t, --tab COLUMNS           Set tab size\n"
-         "  -f, --font-size SIZE        Set font size\n"
-         "  -F, --font FONT             Set font\n"
-         "  -i, --italic                Render underlined text in italic\n"
-         "Layout options:\n"
-         "  -w, --width POINTS          Set output file width\n"
-         "  -H, --height POINTS         Set output file height\n"
-         "  -S, --size NAME             Named paper size\n"
-         "  --portrait                  Use portrait orientation\n"
-         "  --landscape                 Use landscape orientation\n"
-         "  -b, --border POINTS         Set border\n"
-         "  -T, --title TITLE           Top-of-page title string\n"
-         "  -p, --page-numbering        Enable page numbering\n"
-         "     Title and page numbering require a nontrivial border\n"
-         "Output options:\n"
-         "  -y, --type TYPE             Set output type (pdf, ps, png)\n"
-         "  -o, --output OUTPUT         Output filename\n"
-         "     PNG output goes to OUTPUT0.png, OUTPUT1.png, ...; default=output\n"
-         "     PS/PDF goes to stdout by default.\n"
-         "Other options:\n"
-         "  -l, --list-fonts            List available fonts\n"
-         "  -h, --help                  Display usage message\n"
-         "  -V, --version               Display version string\n");
+  printf(
+      "Usage:\n"
+      "  texttops [OPTIONS] [--] [INPUT...]\n"
+      "  texttops --list-fonts\n"
+      "\n"
+      "Text options:\n"
+      "  -t, --tab COLUMNS           Set tab size\n"
+      "  -f, --font-size SIZE        Set font size\n"
+      "  -F, --font FONT             Set font\n"
+      "  -i, --italic                Render underlined text in italic\n"
+      "Layout options:\n"
+      "  -w, --width POINTS          Set output file width\n"
+      "  -H, --height POINTS         Set output file height\n"
+      "  -S, --size NAME             Named paper size\n"
+      "  --portrait                  Use portrait orientation\n"
+      "  --landscape                 Use landscape orientation\n"
+      "  -b, --border POINTS         Set border\n"
+      "  -T, --title TITLE           Top-of-page title string\n"
+      "  -p, --page-numbering        Enable page numbering\n"
+      "     Title and page numbering require a nontrivial border\n"
+      "Output options:\n"
+      "  -y, --type TYPE             Set output type (pdf, ps, png)\n"
+      "  -o, --output OUTPUT         Output filename\n"
+      "     PNG output goes to OUTPUT0.png, OUTPUT1.png, ...; default=output\n"
+      "     PS/PDF goes to stdout by default.\n"
+      "Other options:\n"
+      "  -l, --list-fonts            List available fonts\n"
+      "  -h, --help                  Display usage message\n"
+      "  -V, --version               Display version string\n");
 }
 
 static void version() {
@@ -119,24 +117,27 @@ int main(int argc, char **argv) {
     Optional<std::string> size;
     int orientation = PORTRAIT;
     std::string type;
-    if(strstr(argv[0], "pdf")) type = "pdf";
-    else if(strstr(argv[0], "png")) type = "png";
-    else type = "ps";
+    if(strstr(argv[0], "pdf"))
+      type = "pdf";
+    else if(strstr(argv[0], "png"))
+      type = "png";
+    else
+      type = "ps";
     const char *font = "Courier New";
     const char *title = NULL;
     bool pageNumbering = false;
     bool italic = false;
     if(!setlocale(LC_CTYPE, ""))
-      throw std::runtime_error(std::string("setlocale: ")
-                               + strerror(errno));
+      throw std::runtime_error(std::string("setlocale: ") + strerror(errno));
     Pango::init();
     int opt;
-    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:io:S:",
-                             options, NULL)) >= 0) {
+    while((opt = getopt_long(argc, argv, "+hVt:w:H:f:F:T:lb:py:io:S:", options,
+                             NULL))
+          >= 0) {
       switch(opt) {
       case 'y': type = optarg; break;
       case 't': tabstop = stringToInt(optarg); break;
-      case 'w': width = stringToDouble(optarg); break; // TODO units
+      case 'w': width = stringToDouble(optarg); break;  // TODO units
       case 'H': height = stringToDouble(optarg); break; // TODO units
       case 'f': fontsize = stringToDouble(optarg); break;
       case 'F': font = optarg; break;
@@ -146,7 +147,8 @@ int main(int argc, char **argv) {
       case 'T': title = optarg; break;
       case 'i': italic = true; break;
       case 'o': output = optarg; break;
-      case PORTRAIT: case LANDSCAPE: orientation = opt; break;
+      case PORTRAIT:
+      case LANDSCAPE: orientation = opt; break;
       case 'S': size = optarg; break;
       case 'h': help(); return 0;
       case 'V': version(); return 0;
@@ -155,20 +157,26 @@ int main(int argc, char **argv) {
     }
     // Rules about command line options
     if(size.exists() && (width.exists() || height.exists()))
-      throw std::runtime_error("--size cannot be used with --width or --height");
+      throw std::runtime_error(
+          "--size cannot be used with --width or --height");
     if(size.exists() && type == "png")
       throw std::runtime_error("--size cannot be used with --png");
     if(width.exists() != height.exists())
-      throw std::runtime_error("--width and --height must be both or neither present");
+      throw std::runtime_error(
+          "--width and --height must be both or neither present");
     if(tabstop <= 0)
       throw std::runtime_error("invalid top stop size");
     // Defaults
-    if(!fontsize.exists()) fontsize = 8.0;
+    if(!fontsize.exists())
+      fontsize = 8.0;
     if(type == "png") {
-      if(!output) output = "output";
-      if(!border.exists()) border = 0;
+      if(!output)
+        output = "output";
+      if(!border.exists())
+        border = 0;
     } else {
-      if(!border.exists()) border = 36.0;
+      if(!border.exists())
+        border = 36.0;
     }
     if(border <= 0.0)
       throw std::runtime_error("invalid border size");
@@ -180,9 +188,9 @@ int main(int argc, char **argv) {
     if(!width.exists()) {
       if(type == "png") {
         double mw, mh;
-        CairoOutput::getEmSize(Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
-                                                           1, 1),
-                               fontdesc, mw, mh);
+        CairoOutput::getEmSize(
+            Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, 1, 1), fontdesc,
+            mw, mh);
         width = 80 * mw + 2 * border;
         height = 66 * mh + 2 * border;
       } else {
@@ -191,23 +199,25 @@ int main(int argc, char **argv) {
         double n, h, w;
         const std::string &s = size;
         switch(s.at(0)) {
-        case 'A': case 'a':
-          n = stringToInt(s.substr(1,std::string::npos));
-          h = floor(1000/(exp2((2*n-1)/4))+0.2);
+        case 'A':
+        case 'a':
+          n = stringToInt(s.substr(1, std::string::npos));
+          h = floor(1000 / (exp2((2 * n - 1) / 4)) + 0.2);
           w = floor(h / sqrt(2));
           break;
-        case 'B': case 'b':
-          n = stringToInt(s.substr(1,std::string::npos));
-          h = floor(1000/(exp2((n-1)/4))+0.2);
+        case 'B':
+        case 'b':
+          n = stringToInt(s.substr(1, std::string::npos));
+          h = floor(1000 / (exp2((n - 1) / 4)) + 0.2);
           w = floor(h / sqrt(2));
           break;
-        case 'C': case 'c':
-          n = stringToInt(s.substr(1,std::string::npos));
-          h = floor(1000/(exp2((4*n-3)/8))+0.2);
+        case 'C':
+        case 'c':
+          n = stringToInt(s.substr(1, std::string::npos));
+          h = floor(1000 / (exp2((4 * n - 3) / 8)) + 0.2);
           w = floor(h / sqrt(2));
           break;
-        default:
-          throw std::runtime_error("unrecognized paper size");
+        default: throw std::runtime_error("unrecognized paper size");
         }
         width = w * 72 / 25.4;
         height = h * 72 / 25.4;
@@ -224,21 +234,25 @@ int main(int argc, char **argv) {
       newpage = newpage_ps;
       if(output)
         if(!freopen(output, "wb", stdout))
-          throw std::runtime_error(std::string("opening ") + output + ": " + strerror(errno));
+          throw std::runtime_error(std::string("opening ") + output + ": "
+                                   + strerror(errno));
     }
     if(type == "pdf")
-      surface = Cairo::PdfSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
+      surface = Cairo::PdfSurface::create_for_stream(sigc::ptr_fun(writer),
+                                                     width, height);
     else if(type == "ps")
-      surface = Cairo::PsSurface::create_for_stream(sigc::ptr_fun(writer), width, height);
+      surface = Cairo::PsSurface::create_for_stream(sigc::ptr_fun(writer),
+                                                    width, height);
     else if(type == "png")
-      surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,
-                                            width, height);
+      surface =
+          Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, width, height);
     else
       throw std::runtime_error("unrecognized output type");
     context = Cairo::Context::create(surface);
     CairoOutput o(context, fontdesc, newpage);
     o.setPageNumbering(pageNumbering);
-    if(title) o.setTitle(title);
+    if(title)
+      o.setTitle(title);
     o.setBorder(border);
     o.setItalic(italic);
     Textfile t;

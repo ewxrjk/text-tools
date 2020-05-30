@@ -26,7 +26,7 @@ std::wstring narrowToWide(const std::string &s) {
   size_t n = mbstowcs(NULL, s.c_str(), 0);
   if(n == (size_t)-1)
     throw std::runtime_error(std::string("mbstowcs: ") + strerror(errno));
-  std::vector<wchar_t> buffer(n+1);
+  std::vector<wchar_t> buffer(n + 1);
   mbstowcs(&buffer[0], s.c_str(), n);
   return std::wstring(&buffer[0], n);
 }

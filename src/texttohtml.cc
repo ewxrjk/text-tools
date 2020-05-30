@@ -24,12 +24,12 @@
 #include <getopt.h>
 
 static const struct option options[] = {
-  { "title", required_argument, NULL, 'T' },
-  { "tab", required_argument, NULL, 't' },
-  { "italic", no_argument, NULL, 'i' },
-  { "help", no_argument, NULL, 'h' },
-  { "version", no_argument, NULL, 'V' },
-  { NULL, 0, NULL, 0 },
+    {"title", required_argument, NULL, 'T'},
+    {"tab", required_argument, NULL, 't'},
+    {"italic", no_argument, NULL, 'i'},
+    {"help", no_argument, NULL, 'h'},
+    {"version", no_argument, NULL, 'V'},
+    {NULL, 0, NULL, 0},
 };
 
 static void help() {
@@ -54,8 +54,7 @@ int main(int argc, char **argv) {
     int tabstop = 8;
     bool italic = false;
     if(!setlocale(LC_CTYPE, ""))
-      throw std::runtime_error(std::string("setlocale: ")
-                               + strerror(errno));
+      throw std::runtime_error(std::string("setlocale: ") + strerror(errno));
     int opt;
     while((opt = getopt_long(argc, argv, "+hVT:t:i", options, NULL)) >= 0) {
       switch(opt) {

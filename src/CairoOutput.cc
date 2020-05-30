@@ -7,24 +7,17 @@
 CairoOutput::CairoOutput(Cairo::RefPtr<Cairo::Context> context_,
                          const Pango::FontDescription &font_,
                          void (*page_)(CairoOutput *)):
-  context(context_),
-  layout(Pango::Layout::create(context)),
-  font(font_),
-  page(page_),
-  border(0),
-  pageNumbering(false),
-  underlineAsItalic(false),
-  boldState(false), underlineState(false),
-  x(0), y(0),
-  pageNumber(0) {
+    context(context_),
+    layout(Pango::Layout::create(context)), font(font_), page(page_), border(0),
+    pageNumbering(false), underlineAsItalic(false), boldState(false),
+    underlineState(false), x(0), y(0), pageNumber(0) {
   double left, top, right, bottom;
   context->get_clip_extents(left, top, right, bottom);
   width = right - left;
   height = bottom - top;
 }
 
-CairoOutput::~CairoOutput() {
-}
+CairoOutput::~CairoOutput() {}
 
 void CairoOutput::newPage() {
   x = y = 0;
@@ -69,12 +62,12 @@ void CairoOutput::text(const std::wstring &s) {
   std::wstring::size_type n = 0;
   while(n < s.size()) {
     if(s[n] != LINE_FEED) {
-      if(boldState) line += L"<b>";
-      if(underlineState) line += underlineAsItalic ? L"<i>" : L"<u>";
+      if(boldState)
+        line += L"<b>";
+      if(underlineState)
+        line += underlineAsItalic ? L"<i>" : L"<u>";
       switch(s[n]) {
-      default:
-        line += s[n];
-        break;
+      default: line += s[n]; break;
       case L'<':
       case L'&': {
         wchar_t buffer[16];
@@ -83,8 +76,10 @@ void CairoOutput::text(const std::wstring &s) {
         break;
       }
       }
-      if(underlineState) line += underlineAsItalic ? L"</i>" : L"</u>";
-      if(boldState) line += L"</b>";
+      if(underlineState)
+        line += underlineAsItalic ? L"</i>" : L"</u>";
+      if(boldState)
+        line += L"</b>";
     } else
       renderLine();
     ++n;
@@ -123,16 +118,16 @@ void CairoOutput::finished() {
 }
 
 void CairoOutput::listFonts() {
-  std::vector<Glib::RefPtr<Pango::FontFamily> > families
-    = Glib::wrap(pango_cairo_font_map_get_default())->list_families();
+  std::vector<Glib::RefPtr<Pango::FontFamily>> families =
+      Glib::wrap(pango_cairo_font_map_get_default())->list_families();
   for(size_t n = 0; n < families.size(); ++n)
     if(families[n]->is_monospace())
       printf("%s\n", families[n]->get_name().c_str());
 }
 
 void CairoOutput::getEmSize(Cairo::RefPtr<Cairo::Surface> surface,
-                            const Pango::FontDescription &fontdesc,
-                            double &w, double &h) {
+                            const Pango::FontDescription &fontdesc, double &w,
+                            double &h) {
   Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create(surface);
   Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create(context);
   layout->set_font_description(fontdesc);

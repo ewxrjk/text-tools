@@ -30,39 +30,48 @@ int main(void) {
   assert(stringToInt("-1") == -1);
 
   try {
-    stringToInt(""); assert(!"unexpectedly succeeded");
+    stringToInt("");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
     assert(e.what() == "converting '': " + std::string(strerror(EINVAL)));
   }
 
   try {
-    stringToInt(" "); assert(!"unexpectedly succeeded");
+    stringToInt(" ");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
     assert(e.what() == "converting ' ': " + std::string(strerror(EINVAL)));
   }
 
   try {
-    stringToInt("0z"); assert(!"unexpectedly succeeded");
+    stringToInt("0z");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
     assert(e.what() == "converting '0z': " + std::string(strerror(EINVAL)));
   }
 
   try {
-    stringToInt("0x100"); assert(!"unexpectedly succeeded");
+    stringToInt("0x100");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
     assert(e.what() == "converting '0x100': " + std::string(strerror(EINVAL)));
   }
 
   try {
-    stringToInt("4294967296"); assert(!"unexpectedly succeeded");
+    stringToInt("4294967296");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
-    assert(e.what() == std::string("converting '4294967296': ") + strerror(ERANGE));
+    assert(e.what()
+           == std::string("converting '4294967296': ") + strerror(ERANGE));
   }
 
   try {
-    stringToInt("9223372036854775808"); assert(!"unexpectedly succeeded");
+    stringToInt("9223372036854775808");
+    assert(!"unexpectedly succeeded");
   } catch(std::runtime_error &e) {
-    assert(e.what() == std::string("converting '9223372036854775808': ") + strerror(ERANGE));
+    assert(e.what()
+           == std::string("converting '9223372036854775808': ")
+                  + strerror(ERANGE));
   }
 
   return 0;

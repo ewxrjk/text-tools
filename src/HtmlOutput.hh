@@ -34,10 +34,8 @@ public:
   File output;
 
   /** @brief Construct an HTML output text processor */
-  inline HtmlOutput(): index(1),
-                       bold_index(0),
-                       underline_index(0),
-                       underlineAsItalic(false) {}
+  inline HtmlOutput():
+      index(1), bold_index(0), underline_index(0), underlineAsItalic(false) {}
 
   void bold(bool state);
   void underline(bool state);
@@ -46,7 +44,9 @@ public:
 
   /** @brief Set italic mode
    * @param it If @c true, underlined text will be rendered in italic */
-  inline void setItalic(bool it) { underlineAsItalic = it; }
+  inline void setItalic(bool it) {
+    underlineAsItalic = it;
+  }
 
 private:
   size_t index;

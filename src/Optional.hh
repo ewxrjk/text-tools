@@ -26,8 +26,7 @@
  *
  * Adds an extra "nonexistent" value to type @p T.
  */
-template<typename T>
-class Optional {
+template <typename T> class Optional {
 public:
   /** @brief Construct with a nonexistent value */
   inline Optional(): present(false), value() {}
@@ -40,14 +39,17 @@ public:
   /** @brief Test whether the value exists
    * @return @c true if the value exists and @c false otherwise
    */
-  inline bool exists() const { return present; }
+  inline bool exists() const {
+    return present;
+  }
 
   /** @brief Return the (existing) value
    * @return The value
    * @exception std::logic_error if the value does not exist
    */
   inline operator T &() {
-    if(!present) throw std::logic_error("retrieving an absent optional value");
+    if(!present)
+      throw std::logic_error("retrieving an absent optional value");
     return value;
   }
 

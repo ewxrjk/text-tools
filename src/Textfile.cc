@@ -20,7 +20,7 @@
 #include "Characters.hh"
 #include <stdexcept>
 
-Textfile::Textfile(): tabstop(8) { }
+Textfile::Textfile(): tabstop(8) {}
 
 Textfile::~Textfile() {}
 
@@ -39,8 +39,7 @@ void Textfile::process(TextfileProcessor &processor) {
   const std::wstring::size_type limit = contents.size();
   while(n < limit) {
     // First deal with simple text (i.e. no tabs, newlines or markup)
-    if(contents.at(n) != CHARACTER_TABULATION
-       && contents.at(n) != LINE_FEED
+    if(contents.at(n) != CHARACTER_TABULATION && contents.at(n) != LINE_FEED
        && !(n + 1 < limit && contents.at(n + 1) == BACKSPACE)) {
       processor.character(contents.at(n));
       ++column;
@@ -66,19 +65,21 @@ void Textfile::process(TextfileProcessor &processor) {
       continue;
     }
     // Bold & underline
-    if(n + 2 < limit
-       && contents.at(n + 1) == BACKSPACE) {
+    if(n + 2 < limit && contents.at(n + 1) == BACKSPACE) {
       wchar_t c = contents.at(n++);
       bool b = false, u = false;
       while(n + 1 < limit && contents.at(n) == BACKSPACE) {
         ++n;
-        if(c == '+' && contents.at(n) == 'o') c = 'o'; // hack for solaris
+        if(c == '+' && contents.at(n) == 'o')
+          c = 'o'; // hack for solaris
         if(c == '_') {
           c = contents.at(n);
           u = true;
         } else {
-          if(contents.at(n) == c) b = true;
-          else if(contents.at(n) == '_' && c != '_') u = true;
+          if(contents.at(n) == c)
+            b = true;
+          else if(contents.at(n) == '_' && c != '_')
+            u = true;
         }
         ++n;
       }

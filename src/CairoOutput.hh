@@ -36,8 +36,7 @@ public:
    * @bug You can't choose the text and background color.
    */
   CairoOutput(Cairo::RefPtr<Cairo::Context> context,
-              const Pango::FontDescription &font,
-              void (*page)(CairoOutput *));
+              const Pango::FontDescription &font, void (*page)(CairoOutput *));
 
   /** @brief Destroy a CairoOutput */
   ~CairoOutput();
@@ -45,25 +44,33 @@ public:
   /** @brief Set the border size
    * @param b New border size
    */
-  inline void setBorder(double b) { border = b; }
+  inline void setBorder(double b) {
+    border = b;
+  }
 
   /** @brief Set page numbering mode
    * @param pn If @c true, pages will be numbered
    *
    * The title will appear at the bottom of each page.
    */
-  inline void setPageNumbering(bool pn) { pageNumbering = pn; }
+  inline void setPageNumbering(bool pn) {
+    pageNumbering = pn;
+  }
 
   /** @brief Set title
    * @param t Title string
    *
    * The title will appear at the top of each page.
    */
-  inline void setTitle(const std::string &t) { title = t; }
+  inline void setTitle(const std::string &t) {
+    title = t;
+  }
 
   /** @brief Set italic mode
    * @param it If @c true, underlined text will be rendered in italic */
-  inline void setItalic(bool it) { underlineAsItalic = it; }
+  inline void setItalic(bool it) {
+    underlineAsItalic = it;
+  }
   void bold(bool state);
   void underline(bool state);
   void text(const std::wstring &s);
@@ -79,8 +86,8 @@ public:
    * @param h Height of an @c M
    */
   static void getEmSize(Cairo::RefPtr<Cairo::Surface> surface,
-                        const Pango::FontDescription &fontdesc,
-                        double &w, double &h);
+                        const Pango::FontDescription &fontdesc, double &w,
+                        double &h);
 
 private:
   Cairo::RefPtr<Cairo::Context> context;

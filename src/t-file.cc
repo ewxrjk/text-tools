@@ -21,7 +21,7 @@
 #include <cstring>
 #include <cassert>
 #if HAVE_LANGINFO_H
-# include <langinfo.h>
+#include <langinfo.h>
 #endif
 #include <clocale>
 #include <iostream>

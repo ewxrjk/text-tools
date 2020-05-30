@@ -28,10 +28,9 @@
 
 class TestProcessor: public TextfileProcessor {
   std::wostream &m_os;
-public:
 
-  TestProcessor(std::wostream &os): m_os(os) {
-  }
+public:
+  TestProcessor(std::wostream &os): m_os(os) {}
 
   void begin() {
     TextfileProcessor::begin();
@@ -63,8 +62,7 @@ public:
   }
 };
 
-static void write(const std::string &path,
-                  const std::wstring &contents) {
+static void write(const std::string &path, const std::wstring &contents) {
   File f(path, "w");
   for(size_t n = 0; n < contents.size(); ++n)
     f.putw(contents.at(n));
@@ -87,19 +85,20 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text p\n"
-           "text l\n"
-           "text a\n"
-           "text i\n"
-           "text n\n"
-           "text  \n"
-           "text t\n"
-           "text e\n"
-           "text x\n"
-           "text t\n"
-           "text \n\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text p\n"
+              "text l\n"
+              "text a\n"
+              "text i\n"
+              "text n\n"
+              "text  \n"
+              "text t\n"
+              "text e\n"
+              "text x\n"
+              "text t\n"
+              "text \n\n"
+              "end\n");
   }
 
   {
@@ -109,20 +108,21 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text t\n"
-           "text a\n"
-           "text b\n"
-           "text \n\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text t\n"
+              "text a\n"
+              "text b\n"
+              "text \n\n"
+              "end\n");
   }
 
   {
@@ -132,20 +132,21 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text x\n"
-           "text x\n"
-           "text x\n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text  \n"
-           "text t\n"
-           "text a\n"
-           "text b\n"
-           "text \n\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text x\n"
+              "text x\n"
+              "text x\n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text  \n"
+              "text t\n"
+              "text a\n"
+              "text b\n"
+              "text \n\n"
+              "end\n");
   }
 
   {
@@ -155,20 +156,21 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text u\n"
-           "text n\n"
-           "text d\n"
-           "text e\n"
-           "text r\n"
-           "underline 1\n"
-           "text l\n"
-           "text i\n"
-           "text n\n"
-           "text e\n"
-           "underline 0\n"
-           "text \n\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text u\n"
+              "text n\n"
+              "text d\n"
+              "text e\n"
+              "text r\n"
+              "underline 1\n"
+              "text l\n"
+              "text i\n"
+              "text n\n"
+              "text e\n"
+              "underline 0\n"
+              "text \n\n"
+              "end\n");
   }
 
   {
@@ -178,20 +180,21 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text u\n"
-           "text n\n"
-           "text d\n"
-           "text e\n"
-           "text r\n"
-           "underline 1\n"
-           "text l\n"
-           "text i\n"
-           "text n\n"
-           "text e\n"
-           "underline 0\n"
-           "text \n\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text u\n"
+              "text n\n"
+              "text d\n"
+              "text e\n"
+              "text r\n"
+              "underline 1\n"
+              "text l\n"
+              "text i\n"
+              "text n\n"
+              "text e\n"
+              "underline 0\n"
+              "text \n\n"
+              "end\n");
   }
 
   {
@@ -201,55 +204,58 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text b\n"
-           "text o\n"
-           "text l\n"
-           "text d\n"
-           "text  \n"
-           "bold 1\n"
-           "text t\n"
-           "text e\n"
-           "text x\n"
-           "text t\n"
-           "bold 0\n"
-           "text \n\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text b\n"
+              "text o\n"
+              "text l\n"
+              "text d\n"
+              "text  \n"
+              "bold 1\n"
+              "text t\n"
+              "text e\n"
+              "text x\n"
+              "text t\n"
+              "bold 0\n"
+              "text \n\n"
+              "end\n");
   }
 
   {
-    write("test.input", L"bold u\bu\b_n\bn\b_d\bd\b_e\be\b_r\br\b_ l\b_\bli\b_\bin\b_\bne\b_\be\n");
+    write("test.input", L"bold u\bu\b_n\bn\b_d\bd\b_e\be\b_r\br\b_ "
+                        L"l\b_\bli\b_\bin\b_\bne\b_\be\n");
     t.open("test.input");
     std::wstringstream ss;
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text b\n"
-           "text o\n"
-           "text l\n"
-           "text d\n"
-           "text  \n"
-           "bold 1\n"
-           "underline 1\n"
-           "text u\n"
-           "text n\n"
-           "text d\n"
-           "text e\n"
-           "text r\n"
-           "bold 0\n"
-           "underline 0\n"
-           "text  \n"
-           "bold 1\n"
-           "underline 1\n"
-           "text l\n"
-           "text i\n"
-           "text n\n"
-           "text e\n"
-           "bold 0\n"
-           "underline 0\n"
-           "text \n\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text b\n"
+              "text o\n"
+              "text l\n"
+              "text d\n"
+              "text  \n"
+              "bold 1\n"
+              "underline 1\n"
+              "text u\n"
+              "text n\n"
+              "text d\n"
+              "text e\n"
+              "text r\n"
+              "bold 0\n"
+              "underline 0\n"
+              "text  \n"
+              "bold 1\n"
+              "underline 1\n"
+              "text l\n"
+              "text i\n"
+              "text n\n"
+              "text e\n"
+              "bold 0\n"
+              "underline 0\n"
+              "text \n\n"
+              "end\n");
   }
 
   {
@@ -259,17 +265,18 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text s\n"
-           "bold 1\n"
-           "text o\n"
-           "bold 0\n"
-           "text l\n"
-           "text a\n"
-           "text r\n"
-           "text i\n"
-           "text s\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text s\n"
+              "bold 1\n"
+              "text o\n"
+              "bold 0\n"
+              "text l\n"
+              "text a\n"
+              "text r\n"
+              "text i\n"
+              "text s\n"
+              "end\n");
   }
 
   {
@@ -279,11 +286,12 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "underline 1\n"
-           "text _\n"
-           "underline 0\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "underline 1\n"
+              "text _\n"
+              "underline 0\n"
+              "end\n");
   }
 
   {
@@ -293,10 +301,11 @@ int main(void) {
     TestProcessor tp(ss);
     t.process(tp);
     std::wstring s = ss.str();
-    assert(s == L"begin\n"
-           "text .\n"
-           "text \b\n"
-           "end\n");
+    assert(s
+           == L"begin\n"
+              "text .\n"
+              "text \b\n"
+              "end\n");
   }
 
   assert(remove("test.input") == 0);

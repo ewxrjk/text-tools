@@ -24,7 +24,8 @@ void TextfileProcessor::character(wchar_t c, bool isBold, bool isUnderlined) {
     bold(boldState = isBold);
   if(isUnderlined != underlineState)
     underline(underlineState = isUnderlined);
-  std::wstring s; s += c;
+  std::wstring s;
+  s += c;
   text(s);
 }
 

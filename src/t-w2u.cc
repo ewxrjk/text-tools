@@ -31,8 +31,8 @@ int main(void) {
    * short identifier is less than 00A0 other than 0024 ($), 0040 (@), or 0060
    * (‘), nor one in the range D800 through DFFF inclusive."
    */
-  static const wchar_t c99_is_moronic[] =
-    { L'u', L'n', L'i', L'c', L'o', L'd', L'e', L':', L' ', 0x0080, 0 };
+  static const wchar_t c99_is_moronic[] = {L'u', L'n', L'i', L'c',   L'o', L'd',
+                                           L'e', L':', L' ', 0x0080, 0};
   s = wideToUtf8(c99_is_moronic);
   assert(s == "unicode: \xC2\x80");
 

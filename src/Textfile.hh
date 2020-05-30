@@ -124,7 +124,9 @@ public:
    *
    * The default tab stop is 8.
    */
-  inline void setTabStop(int n) { tabstop = n; }
+  inline void setTabStop(int n) {
+    tabstop = n;
+  }
 
   /** @brief Read a file
    * @param path Name of file to read, or "-" for stdin
