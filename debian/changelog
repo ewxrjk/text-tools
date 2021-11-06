@@ -1,3 +1,9 @@
+rjk-text-tools (1.2.deb10.0) stable; urgency=medium
+
+  * Rebuild for bullseye
+
+ -- Richard Kettlewell <rjk@greenend.org.uk>  Sat, 06 Nov 2021 21:26:50 +0000
+
 rjk-text-tools (1.2) unstable; urgency=medium
 
   * Rebuild for buster
