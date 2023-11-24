@@ -15,13 +15,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-AC_PREREQ([2.61])
+AC_PREREQ([2.71])
 AC_INIT([rjk-text-tools],[1.2],[rjk@terraraq.org.uk])
 AC_CONFIG_AUX_DIR([config.aux])
 AM_INIT_AUTOMAKE([foreign])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AC_CONFIG_SRCDIR([src/Textfile.hh])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
 AC_LANG([C++])
 AC_CHECK_HEADERS([langinfo.h])
@@ -69,4 +69,5 @@ if test $rjk_cv_sigcpp_broken = yes; then
 fi
 
 CXXFLAGS="${CXXFLAGS} ${CXXFLAGS_EXTRA}"
-AC_OUTPUT([Makefile src/Makefile doc/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile doc/Makefile])
+AC_OUTPUT
