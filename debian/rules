@@ -44,9 +44,9 @@ endif
 
 # Install commands.  You wouldn't normally override these.
 INSTALL=install
-INSTALL_DATA=$(INSTALL) -p -o root -g root -m 644
-INSTALL_PROGRAM=$(INSTALL) -p -o root -g root -m 755
-INSTALL_SCRIPT=$(INSTALL) -p -o root -g root -m 755
+INSTALL_DATA=$(INSTALL) -p -m 644
+INSTALL_PROGRAM=$(INSTALL) -p -m 755
+INSTALL_SCRIPT=$(INSTALL) -p -m 755
 MKDIR=mkdir -p -m 755
 
 export INSTALL_DATA
@@ -82,9 +82,8 @@ pkg-rjk-text-tools: build
 			| sed 's/^\.\///' \
 			| xargs md5sum > DEBIAN/md5sums
 	dpkg-gencontrol -isp -prjk-text-tools -Pdebian/rjk-text-tools -Tdebian/substvars.rjk-text-tools
-	chown -R root:root debian/rjk-text-tools
 	chmod -R g-ws debian/rjk-text-tools
-	dpkg --build debian/rjk-text-tools ..
+	dpkg-deb --root-owner-group --build debian/rjk-text-tools ..
 
 binary: binary-arch binary-indep
 binary-arch: pkg-rjk-text-tools
